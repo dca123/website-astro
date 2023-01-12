@@ -6,41 +6,57 @@ const intro =
   "Software engineer driven by curiosity, passionate about minimizing redundancy using code to solve problems. I work on the front-end, back-end, and all stuff in between. Let's build something together.";
 ---
 
-<Layout title="Welcome to Astro.">
-  <main>
-    <h1 class="text-white text-xl font-sans">Hey,</h1>
-    <h1 class="text-white">I'm</h1>
-    <h1
-      class="font-black text-transparent bg-clip-text bg-gradient-to-br from-orange-400 to-orange-700 text-5xl"
-    >
-      Devinda Senanayake
-    </h1>
-
-    <div class="bg-slate-800 rounded p-4">
+<Layout title="Devinda Senanayake">
+  <main class="mt-10 pb-10">
+    <div class="space-y-2">
+      <h1 class="text-white font-light text-xl">Hey,</h1>
+      <h1 class="text-white font-light text-3xl">I'm</h1>
+      <h1
+        class="font-black text-transparent bg-clip-text bg-gradient-to-br from-orange-400 to-orange-700 text-5xl"
+      >
+        Devinda Senanayake
+      </h1>
+    </div>
+    <div class="bg-slate-800 rounded p-4 mt-4">
       <p class="text-white">
         {intro}
       </p>
     </div>
-    <div class="flex space-x-2 text-white">
+    <div class="flex justify-between text-white mt-4 mx-4 items-center">
       <div class="bg-orange-500 p-2 rounded">Resume</div>
-      <FaEnvelope className="h-7 w-7 flex-no-shrink fill-current" fill="none" />
-      <FaGithub className="h-7 w-7 flex-no-shrink fill-current" fill="none" />
+      <FaEnvelope
+        className="h-7 w-7 flex-no-shrink fill-current text-gray-100"
+        fill="none"
+      />
+      <FaGithub
+        className="h-7 w-7 flex-no-shrink fill-current text-gray-100"
+        fill="none"
+      />
     </div>
-    <h1 class="text-white font-thin text-lg">Stuff I've Done</h1>
-    <div class="flex">
-      <div class="bg-gray-700 p-2 rounded">
+
+    <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700" />
+
+    <h1 class="text-white font-normal text-xl mt-2">Stuff I've Done</h1>
+    <div class="flex mt-3">
+      <div class="bg-gray-700 rounded">
         <img
           src="https://picsum.photos/600"
           alt="placeholder"
-          class="object-cover max-h-48 min-w-full"
+          class="object-cover max-h-48 min-w-full rounded rounded-b-none"
         />
-        <div>
+        <div class="p-2 mt-2">
           <h2 class="text-white text-xl font-extralight">This Website</h2>
           <p class="text-white">The process behing creating this website</p>
-          <div class="flex">
-            <div class="text-white">Astro</div>
-            <div class="text-white">Notion</div>
-            <div class="text-white">Tailwind</div>
+          <div class="flex space-x-2 mt-2 3 mb-2">
+            <div class="text-white text-xs bg-slate-500 rounded px-2 py-1">
+              Astro
+            </div>
+            <div class="text-white text-xs bg-slate-500 rounded px-2 py-1">
+              Notion
+            </div>
+            <div class="text-white text-xs bg-slate-500 rounded px-2 py-1">
+              Tailwind
+            </div>
           </div>
         </div>
       </div>
