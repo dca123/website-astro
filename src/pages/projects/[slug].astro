@@ -1,4 +1,5 @@
 ---
+import Notion from "../../components/Notion";
 import Skill from "../../components/Skill.astro";
 import Layout from "../../layouts/Layout.astro";
 
@@ -51,4 +52,5 @@ const skills = ["React", "Astro", "Tailwind", "Typescript"];
   <div class="flex space-x-2 mt-4">
     {skills.map((skill) => <Skill title={skill} size="medium" />)}
   </div>
+  <Notion />
 </Layout>
