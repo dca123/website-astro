@@ -1,9 +1,13 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import { FaEnvelope, FaGithub } from "react-icons/fa/index";
+import Card from "../components/Card.astro";
 
 const intro =
   "Software engineer driven by curiosity, passionate about minimizing redundancy using code to solve problems. I work on the front-end, back-end, and all stuff in between. Let's build something together.";
+const email = "mailto:" + "contact@devinda.me";
+const github = "https://github.com/" + "dca123";
+const resume = "https://website.devinda.me/resume.pdf";
 ---
 
 <Layout title="Devinda Senanayake">
@@ -22,44 +26,53 @@ const intro =
         {intro}
       </p>
     </div>
-    <div class="flex justify-between text-white mt-4 mx-4 items-center">
-      <div class="bg-orange-500 p-2 rounded">Resume</div>
-      <FaEnvelope
-        className="h-7 w-7 flex-no-shrink fill-current text-gray-100"
-        fill="none"
-      />
-      <FaGithub
-        className="h-7 w-7 flex-no-shrink fill-current text-gray-100"
-        fill="none"
-      />
+    <div class="flex justify-between text-white mt-5 mx-4 items-center">
+      <a
+        class="bg-orange-500 hover:bg-orange-600 p-2 rounded text-sm"
+        href={resume}
+        target="_blank"
+      >
+        Resume
+      </a>
+      <a
+        class="hover:bg-gray-800 px-6 py-2 hover:rounded"
+        href={email}
+        target="_blank"
+      >
+        <FaEnvelope
+          className="h-5 w-5 flex-no-shrink fill-current text-gray-100"
+          fill="none"
+        />
+      </a>
+      <a
+        class="hover:bg-gray-800 px-6 py-2 hover:rounded"
+        href={github}
+        target="_blank"
+      >
+        <FaGithub
+          className="h-5 w-5 flex-no-shrink fill-current text-gray-100"
+          fill="none"
+        />
+      </a>
     </div>
 
-    <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700" />
+    <hr class="h-px my-6 bg-gray-200 border-0 dark:bg-gray-700" />
 
     <h1 class="text-white font-normal text-xl mt-2">Stuff I've Done</h1>
-    <div class="flex mt-3">
-      <div class="bg-gray-700 rounded">
-        <img
-          src="https://picsum.photos/600"
-          alt="placeholder"
-          class="object-cover max-h-48 min-w-full rounded rounded-b-none"
-        />
-        <div class="p-2 mt-2">
-          <h2 class="text-white text-xl font-extralight">This Website</h2>
-          <p class="text-white">The process behing creating this website</p>
-          <div class="flex space-x-2 mt-2 3 mb-2">
-            <div class="text-white text-xs bg-slate-500 rounded px-2 py-1">
-              Astro
-            </div>
-            <div class="text-white text-xs bg-slate-500 rounded px-2 py-1">
-              Notion
-            </div>
-            <div class="text-white text-xs bg-slate-500 rounded px-2 py-1">
-              Tailwind
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    <Card
+      title="Devinda.me"
+      description="My personal website built with Astro and TailwindCSS"
+      skills={["Astro", "TailwindCSS", "Vite"]}
+    />
+    <Card
+      title="Devinda.me"
+      description="My personal website built with Astro and TailwindCSS"
+      skills={["Astro", "TailwindCSS", "Vite"]}
+    />
+    <Card
+      title="Devinda.me"
+      description="My personal website built with Astro and TailwindCSS"
+      skills={["Astro", "TailwindCSS", "Vite"]}
+    />
   </main>
 </Layout>
