@@ -8,6 +8,24 @@ const intro =
 const email = "mailto:" + "contact@devinda.me";
 const github = "https://github.com/" + "dca123";
 const resume = "https://website.devinda.me/resume.pdf";
+
+const projects = [
+  {
+    title: "Devinda.me",
+    description: "My personal website built with Astro and TailwindCSS",
+    skills: ["Astro", "TailwindCSS", "Vite"],
+  },
+  {
+    title: "Devinda.me",
+    description: "My personal website built with Astro and TailwindCSS",
+    skills: ["Astro", "TailwindCSS", "Vite"],
+  },
+  {
+    title: "Devinda.me",
+    description: "My personal website built with Astro and TailwindCSS",
+    skills: ["Astro", "TailwindCSS", "Vite"],
+  },
+];
 ---
 
 <Layout title="Devinda Senanayake">
@@ -59,20 +77,14 @@ const resume = "https://website.devinda.me/resume.pdf";
     <hr class="h-px my-6 bg-gray-200 border-0 dark:bg-gray-700" />
 
     <h1 class="text-white font-normal text-xl mt-2">Stuff I've Done</h1>
-    <Card
-      title="Devinda.me"
-      description="My personal website built with Astro and TailwindCSS"
-      skills={["Astro", "TailwindCSS", "Vite"]}
-    />
-    <Card
-      title="Devinda.me"
-      description="My personal website built with Astro and TailwindCSS"
-      skills={["Astro", "TailwindCSS", "Vite"]}
-    />
-    <Card
-      title="Devinda.me"
-      description="My personal website built with Astro and TailwindCSS"
-      skills={["Astro", "TailwindCSS", "Vite"]}
-    />
+    {
+      projects.map((project) => (
+        <Card
+          title={project.title}
+          description={project.description}
+          skills={project.skills}
+        />
+      ))
+    }
   </main>
 </Layout>

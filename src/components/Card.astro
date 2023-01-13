@@ -1,8 +1,10 @@
 ---
+import Skill from "./Skill.astro";
+
 export interface Props {
   title: string;
   description: string;
-  skills: [string, string, string];
+  skills: string[];
 }
 
 const { description, skills, title } = Astro.props;
@@ -16,16 +18,10 @@ const { description, skills, title } = Astro.props;
       class="object-cover max-h-48 min-w-full rounded rounded-b-none"
     />
     <div class="py-2 px-4 mt-2">
-      <h2 class="text-white text-xl font-semibold">{title}</h2>
+      <h2 class="text-white text-xl font-semibold">{title}</h2>title
       <p class="text-white">{description}</p>
       <div class="flex space-x-2 mt-4 mb-2">
-        {
-          skills.map((skill) => (
-            <div class="text-white text-xs bg-slate-500 rounded-md px-2 py-1">
-              {skill}
-            </div>
-          ))
-        }
+        {skills.map((skill) => <Skill title={skill} size="small" />)}
       </div>
     </div>
   </div>
