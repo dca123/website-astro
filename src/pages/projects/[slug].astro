@@ -2,8 +2,17 @@
 import Notion from "../../components/Notion";
 import Skill from "../../components/Skill.astro";
 import Layout from "../../layouts/Layout.astro";
+import { Client } from "@notionhq/client";
+import type { ListBlockChildrenResponse } from "@notionhq/client/build/src/api-endpoints";
 
-export function getStaticPaths() {
+export async function getStaticPaths() {
+  const notion = new Client({
+    auth: import.meta.env.NOTION_API_KEY,
+  });
+  const response = (block_id: string) =>
+    notion.blocks.children.list({
+      block_id,
+    });
   return [
     {
       params: {
@@ -11,6 +20,8 @@ export function getStaticPaths() {
       },
       props: {
         title: "1",
+        // blocks: await response("361e85f3bef14f1aa4c8ba60ae4b4c88"),
+        blocks: await response("063279a74b4c44ceb1d08849a1b39068"),
       },
     },
     {
@@ -26,12 +37,14 @@ export function getStaticPaths() {
 
 export interface Props {
   title: string;
+  blocks: ListBlockChildrenResponse;
 }
 
 const title = "This Website";
 const date = "2021-09-01";
 const githubLink = "https://www.github.com/dca123";
 const skills = ["React", "Astro", "Tailwind", "Typescript"];
+const { blocks } = Astro.props;
 ---
 
 <Layout title={title + " | Devinda S"}>
@@ -52,5 +65,10 @@ const skills = ["React", "Astro", "Tailwind", "Typescript"];
   <div class="flex space-x-2 mt-4">
     {skills.map((skill) => <Skill title={skill} size="medium" />)}
   </div>
-  <Notion />
+
+  <hr class="h-px my-6 bg-gray-200 border-0 dark:bg-gray-700" />
+
+  <div class="space-y-2">
+    <Notion blocks={blocks} />
+  </div>
 </Layout>
