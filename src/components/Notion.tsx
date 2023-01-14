@@ -1,10 +1,9 @@
-import { Client, isFullBlock } from "@notionhq/client";
 import type {
-  ListBlockChildrenResponse,
   RichTextItemResponse,
   TextRichTextItemResponse,
 } from "@notionhq/client/build/src/api-endpoints";
 import { clsx } from "clsx";
+import type { Content } from "../lib/notionExtracter";
 
 const NotionColorMap: Record<
   TextRichTextItemResponse["annotations"]["color"],
@@ -58,96 +57,55 @@ const RichTextSpan = (
   return <>{blocks}</>;
 };
 
-const extractContent = (blocks: ListBlockChildrenResponse) => {
- const transformedBlocks: Array<{
-    type: 'paragraph' | 'heading_1' | 'heading_2' | 'heading_3' 
-    content: Array<RichTextItemResponse>
-  } | {
-    type: 'bulleted_list_item' | 'numbered_list_item'
-    content: Array<Array<RichTextItemResponse>>
-  }> = [];
-
-  for (let i = 0; i < blocks.results.length; i++) {
-    const block = blocks.results[i];
-    if (isFullBlock(block)) {
-      switch (block.type) {
-        case "paragraph":
-          transformedBlocks.push(
-            { type: "paragraph", content: block.paragraph.rich_text },
-          );
-          break;
-        case "heading_1":
-          transformedBlocks.push(
-            { type: "heading_1", content: block.heading_1.rich_text },
-          );
-          break;
-        case "heading_2":
-          transformedBlocks.push(
-            { type: "heading_2", content: block.heading_2.rich_text },
-          );
-          break;
-        case "heading_3":
-          transformedBlocks.push(
-            { type: "heading_3", content: block.heading_3.rich_text },
-          );
-          break;
-        case "bulleted_list_item": {
-          const lastTransformedBlock =
-            transformedBlocks[transformedBlocks.length - 1];
-          if (lastTransformedBlock.type === "bulleted_list_item") {
-            lastTransformedBlock.content = [...lastTransformedBlock.content, block.bulleted_list_item.rich_text]
-          } else {
-            transformedBlocks.push({
-              type: "bulleted_list_item",
-              content: [block.bulleted_list_item.rich_text],
-            });
-          }
-          break;
-        }
-        case "numbered_list_item": {
-          const lastTransformedBlock =
-            transformedBlocks[transformedBlocks.length - 1];
-
-          if (lastTransformedBlock.type === "numbered_list_item") {
-            lastTransformedBlock.content = [...lastTransformedBlock.content, block.numbered_list_item.rich_text]
-          } else {
-            transformedBlocks.push({
-              type: "numbered_list_item",
-              content: [block.numbered_list_item.rich_text],
-            });
-          }
-          break;
-        }
-      }
-    }
-  }
-
-  return transformedBlocks;
-}
-
 export default function Notion({
   blocks,
 }: {
-  blocks: ListBlockChildrenResponse;
+  blocks: Content;
 }) {
- 
-  const transformedBlocks = extractContent(blocks);
-
-  return transformedBlocks.map(block => {
-    switch (block.type) {
+  return blocks.map(({ content, type }) => {
+    switch (type) {
       case "paragraph":
-        return <p>{RichTextSpan({ content: block.content })}</p>
+        return <p>{RichTextSpan({ content: content })}</p>;
       case "heading_1":
-        return <h1 className="text-3xl font-light">{RichTextSpan({ content: block.content })}</h1>
+        return (
+          <h1 className="text-3xl font-light">
+            <RichTextSpan content={content} />
+          </h1>
+        );
       case "heading_2":
-        return <h2 className="text-2xl font-light">{RichTextSpan({ content: block.content })}</h2>
+        return (
+          <h2 className="text-2xl font-light">
+            <RichTextSpan content={content} />
+          </h2>
+        );
       case "heading_3":
-        return <h3 className="text-xl font-light">{RichTextSpan({ content: block.content })}</h3>
+        return (
+          <h3 className="text-xl font-light">
+            <RichTextSpan content={content} />
+          </h3>
+        );
       case "bulleted_list_item":
-        return <ul className="list-disc text-white">{block.content.map(content => <li>{RichTextSpan({ content })}</li>)}</ul>
+        return (
+          <ul className="list-disc list-inside text-white">
+            {content.map((content, idx) => (
+              <li key={idx}>
+                <RichTextSpan content={content} />
+              </li>
+            ))}
+          </ul>
+        );
       case "numbered_list_item":
-        return <ol className="list-decimal text-white">{block.content.map(content => <li>{RichTextSpan({ content })}</li>)}</ol>
+        return (
+          <ol className="list-decimal list-inside text-white">
+            {content.map((content, idx) => (
+              <li key={idx}>
+                <span className="pl-1">
+                  <RichTextSpan content={content} />
+                </span>
+              </li>
+            ))}
+          </ol>
+        );
     }
-  })
-
+  });
 }

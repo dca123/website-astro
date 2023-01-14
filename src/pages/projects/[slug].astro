@@ -1,18 +1,15 @@
 ---
-import Notion from "../../components/Notion";
 import Skill from "../../components/Skill.astro";
 import Layout from "../../layouts/Layout.astro";
-import { Client } from "@notionhq/client";
-import type { ListBlockChildrenResponse } from "@notionhq/client/build/src/api-endpoints";
+import { Content, extractContent } from "../../lib/notionExtracter";
+import Notion from "../../components/Notion";
+import { response } from "../../lib/notion";
 
 export async function getStaticPaths() {
-  const notion = new Client({
-    auth: import.meta.env.NOTION_API_KEY,
-  });
-  const response = (block_id: string) =>
-    notion.blocks.children.list({
-      block_id,
-    });
+  const notionData = await response("361e85f3bef14f1aa4c8ba60ae4b4c88");
+  // const notionData = await response("063279a74b4c44ceb1d08849a1b39068");
+  const content = await extractContent(notionData);
+
   return [
     {
       params: {
@@ -21,7 +18,7 @@ export async function getStaticPaths() {
       props: {
         title: "1",
         // blocks: await response("361e85f3bef14f1aa4c8ba60ae4b4c88"),
-        blocks: await response("063279a74b4c44ceb1d08849a1b39068"),
+        blocks: content,
       },
     },
     {
@@ -37,7 +34,7 @@ export async function getStaticPaths() {
 
 export interface Props {
   title: string;
-  blocks: ListBlockChildrenResponse;
+  blocks: Content;
 }
 
 const title = "This Website";
