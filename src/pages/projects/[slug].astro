@@ -46,10 +46,10 @@ const { blocks } = Astro.props;
 
 <Layout title={title + " | Devinda S"}>
   <div class="flex justify-between items-center mt-4">
-    <h1 class="text-white text-xl">{title}</h1>
+    <h1 class="text-white text-xl font-title">{title}</h1>
     <div class="flex flex-col items-end">
-      <p class="text-white font-light text-right">{date}</p>
-      <a href={githubLink} class="text-white font-light">github</a>
+      <p class="text-white font-light text-right font-title">{date}</p>
+      <a href={githubLink} class="text-white font-light font-title">github</a>
     </div>
   </div>
 

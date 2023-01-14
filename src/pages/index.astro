@@ -31,10 +31,10 @@ const projects = [
 <Layout title="Devinda Senanayake">
   <main class="mt-10 pb-10">
     <div class="space-y-2">
-      <h1 class="text-white font-light text-xl">Hey,</h1>
-      <h1 class="text-white font-light text-3xl">I'm</h1>
+      <h1 class="text-white font-light text-xl font-title">Hey,</h1>
+      <h1 class="text-white font-light text-3xl font-title">I'm</h1>
       <h1
-        class="font-black text-transparent bg-clip-text bg-gradient-to-br from-orange-400 to-orange-700 text-5xl"
+        class="font-black font-title text-transparent bg-clip-text bg-gradient-to-br from-orange-400 to-orange-700 text-5xl"
       >
         Devinda Senanayake
       </h1>
@@ -76,7 +76,9 @@ const projects = [
 
     <hr class="h-px my-6 bg-gray-200 border-0 dark:bg-gray-700" />
 
-    <h1 class="text-white font-normal text-xl mt-2">Stuff I've Done</h1>
+    <h1 class="text-white font-normal text-xl mt-2 font-title">
+      Stuff I've Done
+    </h1>
     {
       projects.map((project) => (
         <Card
