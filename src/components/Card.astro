@@ -11,7 +11,7 @@ export interface Props {
 const { description, skills, title, slug } = Astro.props;
 ---
 
-<a href={"projects/" + slug}>
+<a href={"projects/" + slug} rel="prefetch">
   <div class="flex mt-3 justify-center">
     <div class="bg-gray-700 rounded">
       <img
