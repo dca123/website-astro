@@ -131,8 +131,7 @@ export default function Notion({
   blocks: ListBlockChildrenResponse;
 }) {
  
-
-  
+  const transformedBlocks = extractContent(blocks);
 
   return transformedBlocks.map(block => {
     switch (block.type) {
