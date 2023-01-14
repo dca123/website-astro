@@ -2,6 +2,7 @@
 import Layout from "../layouts/Layout.astro";
 import { FaEnvelope, FaGithub } from "react-icons/fa/index";
 import Card from "../components/Card.astro";
+import { getProjects } from "../lib/notion";
 
 const intro =
   "Software engineer driven by curiosity, passionate about minimizing redundancy using code to solve problems. I work on the front-end, back-end, and all stuff in between. Let's build something together.";
@@ -9,23 +10,7 @@ const email = "mailto:" + "contact@devinda.me";
 const github = "https://github.com/" + "dca123";
 const resume = "https://website.devinda.me/resume.pdf";
 
-const projects = [
-  {
-    title: "Devinda.me",
-    description: "My personal website built with Astro and TailwindCSS",
-    skills: ["Astro", "TailwindCSS", "Vite"],
-  },
-  {
-    title: "Devinda.me",
-    description: "My personal website built with Astro and TailwindCSS",
-    skills: ["Astro", "TailwindCSS", "Vite"],
-  },
-  {
-    title: "Devinda.me",
-    description: "My personal website built with Astro and TailwindCSS",
-    skills: ["Astro", "TailwindCSS", "Vite"],
-  },
-];
+const projects = await getProjects("4f1fd603748b44d58615d782979d7a1e");
 ---
 
 <Layout title="Devinda Senanayake">
@@ -85,6 +70,7 @@ const projects = [
           title={project.title}
           description={project.description}
           skills={project.skills}
+          slug={project.slug}
         />
       ))
     }
