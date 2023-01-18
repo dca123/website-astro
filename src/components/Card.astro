@@ -6,16 +6,17 @@ export interface Props {
   description: string;
   skills: string[];
   slug: string;
+  cover: string;
 }
 
-const { description, skills, title, slug } = Astro.props;
+const { description, skills, title, slug, cover } = Astro.props;
 ---
 
 <a href={"projects/" + slug} rel="prefetch">
-  <div class="flex mt-3 justify-center">
-    <div class="bg-gray-700 rounded">
+  <div class="flex mt-3 justify-center min-w-full">
+    <div class="bg-gray-700 rounded min-w-full">
       <img
-        src="https://picsum.photos/600"
+        src={cover}
         alt="placeholder"
         class="object-cover max-h-48 min-w-full rounded rounded-b-none"
       />

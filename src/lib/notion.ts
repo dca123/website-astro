@@ -16,11 +16,8 @@ export const getProjects = async (database_id: string) => {
 
   return database.results.map((page) => {
     if (isFullPage(page)) {
-      console.log(page.properties);
-      const slug = page.properties.slug;
-      const name = page.properties.name;
-      const description = page.properties.description;
-      const skills = page.properties.skills;
+      const { slug, name, description, skills } = page.properties;
+      const { cover } = page;
 
       if (slug.type !== "rich_text") {
         throw new Error(`Slug is not defined for page ${page.id}`);
@@ -36,12 +33,17 @@ export const getProjects = async (database_id: string) => {
         throw new Error(`Skills is not defined for page ${page.id}`);
       }
 
+      if (!cover || cover.type !== 'external') {
+        throw new Error(`Cover is not defined for page ${page.id}`);
+      }
+
       return {
         slug: slug.rich_text[0].plain_text,
         page_id: page.id,
         title: name.title[0].plain_text,
         description: description.rich_text[0].plain_text,
         skills: skills.multi_select.map(skill => skill.name).slice(0, 3),
+        cover: cover.external.url,
       };
     } else {
       throw new Error("Page is not a full page");

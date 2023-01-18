@@ -9,7 +9,6 @@ const intro =
 const email = "mailto:" + "contact@devinda.me";
 const github = "https://github.com/" + "dca123";
 const resume = "https://website.devinda.me/resume.pdf";
-
 const projects = await getProjects("4f1fd603748b44d58615d782979d7a1e");
 ---
 
@@ -64,15 +63,18 @@ const projects = await getProjects("4f1fd603748b44d58615d782979d7a1e");
     <h1 class="text-white font-normal text-xl mt-2 font-title">
       Stuff I've Done
     </h1>
-    {
-      projects.map((project) => (
-        <Card
-          title={project.title}
-          description={project.description}
-          skills={project.skills}
-          slug={project.slug}
-        />
-      ))
-    }
+    <div class="flex flex-col space-y-2">
+      {
+        projects.map((project) => (
+          <Card
+            title={project.title}
+            description={project.description}
+            skills={project.skills}
+            slug={project.slug}
+            cover={project.cover}
+          />
+        ))
+      }
+    </div>
   </main>
 </Layout>
