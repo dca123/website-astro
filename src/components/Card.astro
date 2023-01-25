@@ -9,23 +9,28 @@ export interface Props {
   cover: string;
 }
 
-const { description, skills, title, slug, cover } = Astro.props;
+const { description, skills, title, slug } = Astro.props;
+const cover = import.meta.env.DEV
+  ? "https://via.placeholder.com/600"
+  : Astro.props.cover;
 ---
 
 <a href={"projects/" + slug} rel="prefetch">
-  <div class="flex mt-3 justify-center min-w-full">
-    <div class="bg-gray-700 rounded-lg min-w-full">
+  <div class="bg-gray-700 rounded-lg min-w-full mt-3 flex flex-col h-full">
+    <div class="">
       <img
         src={cover}
         alt="placeholder"
         class="max-h-56 min-w-full rounded rounded-b-none object-cover"
       />
-      <div class="py-2 px-4 mt-2">
+    </div>
+    <div class="px-6 flex flex-col justify-between space-y-4 py-4 h-full">
+      <div>
         <h2 class="text-white text-xl font-semibold font-title">{title}</h2>
         <p class="text-slate-200 font-thin">{description}</p>
-        <div class="flex space-x-2 mt-4 mb-2">
-          {skills.map((skill) => <Skill title={skill} size="small" />)}
-        </div>
+      </div>
+      <div class="flex space-x-2">
+        {skills.map((skill) => <Skill title={skill} size="small" />)}
       </div>
     </div>
   </div>
