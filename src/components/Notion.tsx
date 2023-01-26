@@ -68,13 +68,13 @@ export default function Notion({
         return <p className="pt-1">{RichTextSpan({ content: content })}</p>;
       case "heading_1":
         return (
-          <h1 className="text-3xl font-light font-title pt-5">
+          <h1 className="text-3xl font-medium font-title pt-5 tracking-wider">
             <RichTextSpan content={content} />
           </h1>
         );
       case "heading_2":
         return (
-          <h2 className="text-2xl font-light font-title pt-4">
+          <h2 className="text-2xl font-normal font-title pt-4 tracking-wide">
             <RichTextSpan content={content} />
           </h2>
         );
