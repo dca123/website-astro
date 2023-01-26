@@ -1,0 +1,48 @@
+---
+import { FaBars, FaTimes } from "react-icons/fa";
+---
+
+<div class="absolute right-7 top-7">
+  <FaBars className="h-5 w-5 text-gray-100 nav-open" />
+</div>
+<nav class="fixed w-full h-full bg-slate-900 opacity-90 hidden">
+  <div class="fixed top-7 right-7">
+    <FaTimes className="h-5 w-5 text-gray-100 nav-close" />
+  </div>
+  <div
+    class="flex flex-col justify-center items-center w-full h-full space-y-5"
+  >
+    <a href="" class="text-white text-2xl font-title font-light p-2">Home</a>
+    <a href="" class="text-white text-2xl font-title font-light p-2">About</a>
+    <a href="" class="text-white text-2xl font-title font-light p-2">Projects</a
+    >
+    <a href="" class="text-white text-2xl font-title font-light p-2">Photos</a>
+  </div>
+  <a href="" class="text-white text-2xl font-title font-light p-2">Home</a>
+</nav>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const closeButton = document.querySelector(".nav-close");
+    const openButton = document.querySelector(".nav-open");
+    const nav = document.querySelector("nav");
+
+    if (!nav) {
+      throw new Error("Nav not found");
+    }
+    if (!closeButton) {
+      throw new Error("Close Button not found");
+    }
+    if (!openButton) {
+      throw new Error("Open Button not found");
+    }
+
+    closeButton.addEventListener("click", function () {
+      nav.classList.add("hidden");
+    });
+
+    openButton.addEventListener("click", function () {
+      nav.classList.remove("hidden");
+    });
+  });
+</script>

@@ -6,7 +6,7 @@ import "@fontsource/nunito";
 import "@fontsource/nunito/variable.css";
 import "@fontsource/montserrat";
 import "@fontsource/montserrat/variable.css";
-
+import Nav from "../components/Nav.astro";
 const { title } = Astro.props;
 ---
 
@@ -19,7 +19,11 @@ const { title } = Astro.props;
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
   </head>
-  <body class="bg-gray-900 container mx-auto px-6 md:px-64">
-    <slot />
+
+  <body class="bg-gray-900">
+    <Nav hidden={true} />
+    <div class="container mx-auto px-6 md:px-64">
+      <slot />
+    </div>
   </body>
 </html>
