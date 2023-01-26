@@ -65,22 +65,22 @@ export default function Notion({
   return blocks.map(({ content, type }) => {
     switch (type) {
       case "paragraph":
-        return <p>{RichTextSpan({ content: content })}</p>;
+        return <p className="pt-1">{RichTextSpan({ content: content })}</p>;
       case "heading_1":
         return (
-          <h1 className="text-3xl font-light font-title">
+          <h1 className="text-3xl font-light font-title pt-5">
             <RichTextSpan content={content} />
           </h1>
         );
       case "heading_2":
         return (
-          <h2 className="text-2xl font-light font-title">
+          <h2 className="text-2xl font-light font-title pt-4">
             <RichTextSpan content={content} />
           </h2>
         );
       case "heading_3":
         return (
-          <h3 className="text-xl font-light font-title">
+          <h3 className="text-xl font-light font-title pt-2">
             <RichTextSpan content={content} />
           </h3>
         );
@@ -96,7 +96,7 @@ export default function Notion({
         );
       case "numbered_list_item":
         return (
-          <ol className="list-decimal list-inside text-white">
+          <ol className="list-decimal list-inside text-white space-y-2">
             {content.map((content, idx) => (
               <li key={idx}>
                 <span className="pl-1">

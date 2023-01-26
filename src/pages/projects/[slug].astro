@@ -4,23 +4,28 @@ import Layout from "../../layouts/Layout.astro";
 import { Content, extractContent } from "../../lib/notionExtracter";
 import Notion from "../../components/Notion";
 import { getProjects, response } from "../../lib/notion";
-
+import { readFileSync, writeFileSync } from "fs";
 export async function getStaticPaths() {
-  const projects = await getProjects("4f1fd603748b44d58615d782979d7a1e");
-  const paths = [];
+  if (import.meta.env.PROD) {
+    const projects = await getProjects("4f1fd603748b44d58615d782979d7a1e");
+    const paths = [];
 
-  for (const slug of projects) {
-    const notionData = await response(slug.page_id);
-    const content = await extractContent(notionData);
-    paths.push({
-      params: {
-        slug: slug.slug,
-      },
-      props: {
-        blocks: content,
-      },
-    });
+    for (const slug of projects) {
+      const notionData = await response(slug.page_id);
+      const content = await extractContent(notionData);
+      paths.push({
+        params: {
+          slug: slug.slug,
+        },
+        props: {
+          blocks: content,
+        },
+      });
+    }
+    return paths;
   }
+
+  const paths = JSON.parse(readFileSync("projects.json", "utf-8"));
   return paths;
 }
 
@@ -55,7 +60,7 @@ const { blocks } = Astro.props;
     {skills.map((skill) => <Skill title={skill} size="medium" />)}
   </div>
 
-  <hr class="h-px my-6 bg-gray-200 border-0 dark:bg-gray-700" />
+  <hr class="h-px mt-6 bg-gray-200 border-0 dark:bg-gray-700" />
 
   <div class="space-y-2">
     <Notion blocks={blocks} />

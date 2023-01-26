@@ -1,6 +1,6 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import { FaEnvelope, FaGithub } from "react-icons/fa/index";
+import { FaBars, FaEnvelope, FaGithub } from "react-icons/fa/index";
 import Card from "../components/Card.astro";
 import { getProjects } from "../lib/notion";
 
@@ -13,6 +13,9 @@ const projects = await getProjects("4f1fd603748b44d58615d782979d7a1e");
 ---
 
 <Layout title="Devinda Senanayake">
+  <div class="absolute right-6">
+    <FaBars className="h-5 w-5 text-gray-100" />
+  </div>
   <main class="mt-10 pb-10">
     <div class="space-y-2">
       <h1 class="text-white font-light text-xl font-title">Hey,</h1>
@@ -65,7 +68,7 @@ const projects = await getProjects("4f1fd603748b44d58615d782979d7a1e");
     <h1 class="text-white font-normal text-xl mt-2 font-title">
       Stuff I've Done
     </h1>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-4">
       {
         projects.map((project) => (
           <Card
