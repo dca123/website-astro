@@ -10,18 +10,18 @@ export interface Props {
 }
 
 const { description, skills, title, slug } = Astro.props;
-const cover = import.meta.env.DEV
+const cover = import.meta.env.PROD
   ? "https://via.placeholder.com/600"
   : Astro.props.cover;
 ---
 
 <a href={"projects/" + slug} rel="prefetch">
   <div class="bg-gray-700 rounded-lg min-w-full flex flex-col h-full">
-    <div class="">
+    <div class="aspect-h-3 aspect-w-4">
       <img
         src={cover}
         alt="placeholder"
-        class="max-h-56 min-w-full rounded rounded-b-none object-cover"
+        class="min-w-full rounded rounded-b-none object-cover"
       />
     </div>
     <div class="px-6 flex flex-col justify-between space-y-4 py-4 h-full">
