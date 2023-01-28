@@ -12,32 +12,61 @@ const albums = Array.from({ length: 10 }, (_, i) => ({
 })).sort((a, b) => b.date.getTime() - a.date.getTime());
 ---
 
-<Layout title="Photos">
-  <h1 class="font-title tracking-wider text-xl text-white mt-7">Photos</h1>
+<Layout title="Albums">
+  <h1 class="font-title tracking-wider text-xl text-white mt-7">Albums</h1>
   <div class="my-6">
     {
       albums.map((album, idx) => (
-        <div class:list={["flex flex-col", { "pt-12": idx > 0 }]}>
-          <h1 class="text-white text-3xl font-title font-bold tracking-wider">
-            {album.name}
-          </h1>
-          <h2 class="text-slate-200 text-sm tracking-wider font-title ">
-            {album.date.toLocaleDateString()}
-          </h2>
-          <div class=" relative mt-3">
-            <div class="aspect-h-5 aspect-w-3">
-              <img
-                src={album.src}
-                alt={album.alt}
-                class="object-cover rounded rounded-b-lg"
-              />
-            </div>
-            <div class="h-1/2 w-full absolute bottom-0 bg-gradient-to-t from-slate-800 to-transparent rounded-b" />
-            <div class="text-slate-100 px-2 absolute bottom-0 pb-4 ">
-              <p>{album.description}</p>
+        <>
+          <div class:list={["flex flex-col md:hidden", { "pt-12": idx > 0 }]}>
+            <h1 class="text-white text-3xl font-title font-bold tracking-wider">
+              {album.name}
+            </h1>
+            <h2 class="text-slate-200 text-sm tracking-wider font-title ">
+              {album.date.toLocaleDateString()}
+            </h2>
+            <div class=" relative mt-3">
+              <div class="aspect-h-5 aspect-w-3">
+                <img
+                  src={album.src}
+                  alt={album.alt}
+                  class="object-cover rounded rounded-b-lg"
+                />
+              </div>
+              <div class="h-1/2 w-full absolute bottom-0 bg-gradient-to-t from-slate-800 to-transparent rounded-b" />
+              <div class="text-slate-100 px-2 absolute bottom-0 pb-4 ">
+                <p>{album.description}</p>
+              </div>
             </div>
           </div>
-        </div>
+          <div
+            class:list={[
+              "hidden md:flex w-full space-x-10",
+              { "pt-14": idx > 0 },
+            ]}
+          >
+            <div class="h-full basis-1/2 ">
+              <div class="aspect-h-9 aspect-w-16">
+                <img
+                  src={album.src}
+                  alt={album.alt}
+                  class="object-cover rounded rounded-b-lg"
+                />
+              </div>
+            </div>
+            <div class="basis-1/2">
+              <h1 class="text-white text-3xl font-title font-bold tracking-wider">
+                {album.name}
+              </h1>
+              <h2 class="text-slate-200 text-sm tracking-wider font-title ">
+                {album.date.toLocaleDateString()}
+              </h2>
+              <div class="text-slate-100 pt-5">
+                <p>{album.description}</p>
+              </div>
+            </div>
+          </div>
+        </>
       ))
     }
   </div>
