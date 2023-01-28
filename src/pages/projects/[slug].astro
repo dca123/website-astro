@@ -5,23 +5,31 @@ import { Content, extractContent } from "../../lib/notionExtracter";
 import Notion from "../../components/Notion";
 import { getProjects, response } from "../../lib/notion";
 import { readFileSync, writeFileSync } from "fs";
+type Project = Awaited<ReturnType<typeof getProjects>>[0];
+
+export type Props = Project & {
+  blocks: Content;
+};
+
 export async function getStaticPaths() {
   if (import.meta.env.PROD) {
     const projects = await getProjects("4f1fd603748b44d58615d782979d7a1e");
     const paths = [];
 
-    for (const slug of projects) {
-      const notionData = await response(slug.page_id);
+    for (const project of projects) {
+      const notionData = await response(project.page_id);
       const content = await extractContent(notionData);
       paths.push({
         params: {
-          slug: slug.slug,
+          slug: project.slug,
         },
         props: {
           blocks: content,
+          ...project,
         },
       });
     }
+    writeFileSync("projects.json", JSON.stringify(paths));
     return paths;
   }
 
@@ -29,16 +37,7 @@ export async function getStaticPaths() {
   return paths;
 }
 
-export interface Props {
-  title: string;
-  blocks: Content;
-}
-
-const title = "This Website";
-const date = "2021-09-01";
-const githubLink = "https://www.github.com/dca123";
-const skills = ["React", "Astro", "Tailwind", "Typescript"];
-const { blocks } = Astro.props;
+const { blocks, cover, skills, title, date } = Astro.props;
 ---
 
 <Layout title={title + " | Devinda S"}>
@@ -46,14 +45,15 @@ const { blocks } = Astro.props;
     <h1 class="text-white text-xl font-title">{title}</h1>
     <p class="text-white font-light text-sm font-title">{date}</p>
   </div>
+  <div class="aspect-h-1 aspect-w-2 mt-4">
+    <img
+      src={cover}
+      alt="placeholder"
+      class="min-w-full rounded object-cover"
+    />
+  </div>
 
-  <img
-    src="https://picsum.photos/600"
-    alt="placeholder"
-    class="object-cover max-h-64 min-w-full rounded rounded-b-none mt-6"
-  />
-
-  <div class="flex space-x-2 mt-4">
+  <div class="flex space-x-2 pt-4">
     {skills.map((skill) => <Skill title={skill} size="medium" />)}
   </div>
 
