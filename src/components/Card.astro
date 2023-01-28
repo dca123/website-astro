@@ -10,7 +10,7 @@ export interface Props {
 }
 
 const { description, skills, title, slug } = Astro.props;
-const cover = import.meta.env.DEV
+const cover = import.meta.env.PROD
   ? "https://via.placeholder.com/600"
   : Astro.props.cover;
 ---
