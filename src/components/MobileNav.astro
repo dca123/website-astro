@@ -1,5 +1,8 @@
 ---
 import { FaBars, FaTimes } from "react-icons/fa/index.js";
+import { getPath } from "../lib/path";
+
+const path = getPath(Astro.request.url);
 ---
 
 <div class="absolute right-7 top-7 md:hidden">
@@ -10,11 +13,25 @@ import { FaBars, FaTimes } from "react-icons/fa/index.js";
     <FaTimes className="h-5 w-5 text-gray-100 nav-close" />
   </div>
   <div
-    class="flex flex-col justify-center items-center w-full h-full space-y-5"
+    class="flex flex-col justify-center items-center w-full h-full space-y-5 font-light"
   >
-    <a href="/" class="text-white text-2xl font-title font-light p-2">Home</a>
-    <a href="/albums" class="text-white text-2xl font-title font-light p-2"
-      >Albums</a
+    <a
+      href="/"
+      class:list={[
+        "text-white text-2xl font-title  p-2 ",
+        {
+          "font-semibold": path === "/",
+        },
+      ]}>Home</a
+    >
+    <a
+      href="/albums"
+      class:list={[
+        "text-white text-2xl font-title  p-2 ",
+        {
+          "font-semibold": path === "/albums",
+        },
+      ]}>Albums</a
     >
   </div>
 </nav>

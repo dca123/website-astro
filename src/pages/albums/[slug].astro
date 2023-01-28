@@ -25,13 +25,15 @@ const { title, description, photos } = Astro.props;
 ---
 
 <Layout title={title}>
-  <h1 class="font-title text-white tracking-wider text-xl">{title}</h1>
-  <p class="text-slate-200">{description}</p>
-  <div class="grid grid-cols-3 gap-4 mt-8">
-    {
-      photos.map((photo) => (
-        <img src={photo} class="w-full object-cover rounded" />
-      ))
-    }
+  <div class="py-7">
+    <h1 class="font-title text-white tracking-wider text-xl">{title}</h1>
+    <p class="text-slate-200">{description}</p>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-5">
+      {
+        photos.map((photo) => (
+          <img src={photo} class="w-full object-cover rounded" />
+        ))
+      }
+    </div>
   </div>
 </Layout>
