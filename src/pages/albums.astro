@@ -1,0 +1,49 @@
+---
+import Layout from "../layouts/Layout.astro";
+
+import { faker } from "@faker-js/faker";
+const albums = Array.from({ length: 10 }, (_, i) => ({
+  id: i,
+  src: `https://picsum.photos/seed/${i}/1080`,
+  alt: `Photo ${i}`,
+  name: faker.word.noun().toUpperCase(),
+  description: faker.lorem.sentences(2),
+  date: faker.date.past(5),
+})).sort((a, b) => b.date.getTime() - a.date.getTime());
+---
+
+<Layout title="Photos">
+  <h1 class="font-title tracking-wider text-xl text-white mt-7">Photos</h1>
+  <div class="my-6">
+    {
+      albums.map((album, idx) => (
+        <div
+          class:list={[
+            "flex flex-col",
+            { "pt-10": idx > 0, "pt-8": idx === 0 },
+          ]}
+        >
+          <h1 class="text-white text-3xl font-title font-bold tracking-wider">
+            {album.name}
+          </h1>
+          <h2 class="text-slate-300 text-sm font-medium font-title ">
+            {album.date.toLocaleDateString()}
+          </h2>
+          <div class=" relative mt-2">
+            <div class="aspect-h-5 aspect-w-3">
+              <img
+                src={album.src}
+                alt={album.alt}
+                class="object-cover rounded"
+              />
+            </div>
+            <div class="h-full w-full absolute bottom-0 bg-gradient-to-t from-slate-800 to-transparent rounded-b" />
+            <div class="text-slate-200 px-2 absolute bottom-0 pb-4 ">
+              <p>{album.description}</p>
+            </div>
+          </div>
+        </div>
+      ))
+    }
+  </div>
+</Layout>
