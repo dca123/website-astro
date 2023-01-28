@@ -34,10 +34,10 @@ const albums = Array.from({ length: 10 }, (_, i) => ({
               <img
                 src={album.src}
                 alt={album.alt}
-                class="object-cover rounded"
+                class="object-cover rounded rounded-b-lg"
               />
             </div>
-            <div class="h-full w-full absolute bottom-0 bg-gradient-to-t from-slate-800 to-transparent rounded-b" />
+            <div class="h-1/2 w-full absolute bottom-0 bg-gradient-to-t from-slate-800 to-transparent rounded-b" />
             <div class="text-slate-200 px-2 absolute bottom-0 pb-4 ">
               <p>{album.description}</p>
             </div>
