@@ -1,4 +1,5 @@
 ---
+import { Image } from "@astrojs/image/components";
 import Layout from "../../layouts/Layout.astro";
 
 import { getAlbums } from "../../lib/notion";
@@ -10,7 +11,7 @@ const albums = await getAlbums("076c02479a7e4a4a80c54569831d85e5");
   <div class="my-6">
     {
       albums.map((album, idx) => (
-        <a href=`/albums/${album.slug}`>
+        <a href={"/albums/" + album.slug}>
           <div class:list={["flex flex-col md:hidden", { "pt-12": idx > 0 }]}>
             <h1 class="text-white text-3xl font-title font-bold tracking-wider">
               {album.name}
@@ -18,14 +19,15 @@ const albums = await getAlbums("076c02479a7e4a4a80c54569831d85e5");
             <h2 class="text-slate-200 text-sm tracking-wider font-title ">
               {album.date}
             </h2>
-            <div class=" relative mt-3">
-              <div class="aspect-h-5 aspect-w-3">
-                <img
-                  src={album.src}
-                  alt={album.alt}
-                  class="object-cover rounded rounded-b-lg"
-                />
-              </div>
+            <div class="relative mt-3">
+              <Image
+                aspectRatio="1:1"
+                width={800}
+                src={album.src}
+                alt={album.alt}
+                format="webp"
+                class="rounded rounded-b-lg"
+              />
               <div class="h-1/2 w-full absolute bottom-0 bg-gradient-to-t from-slate-800 to-transparent rounded-b" />
               <div class="text-slate-100 px-2 absolute bottom-0 pb-4 ">
                 <p>{album.description}</p>
@@ -39,13 +41,14 @@ const albums = await getAlbums("076c02479a7e4a4a80c54569831d85e5");
             ]}
           >
             <div class="h-full basis-1/2 ">
-              <div class="aspect-h-9 aspect-w-16">
-                <img
-                  src={album.src}
-                  alt={album.alt}
-                  class="object-cover rounded rounded-b-lg"
-                />
-              </div>
+              <Image
+                width={1080}
+                aspectRatio="2:1"
+                src={album.src}
+                alt={album.alt}
+                format="webp"
+                class="rounded rounded-b-lg"
+              />
             </div>
             <div class="basis-1/2">
               <h1 class="text-white text-3xl font-title font-bold tracking-wider">

@@ -12,7 +12,7 @@ export type Props = {
 };
 
 export async function getStaticPaths() {
-  if (import.meta.env.DEV) {
+  if (import.meta.env.PROD) {
     const projects = await getAlbums("076c02479a7e4a4a80c54569831d85e5");
     const paths = [];
 
@@ -46,19 +46,19 @@ const { title, description, date, photos } = Astro.props;
     <h1 class="font-title text-white tracking-wider text-xl">{title}</h1>
     <p class="text-slate-200">{description}</p>
     <p class="text-slate-200">{date}</p>
-    <div class="flex flex-col space-y-8 mt-5">
+    <div
+      class="flex flex-col space-y-8 mt-5 md:grid md:grid-cols-2 md:space-y-0 md:gap-3"
+    >
       {
         photos.map((photo) => (
-          <div class="aspect-h-9 aspect-w-32">
-            <Image
-              height={800}
-              aspectRatio="1:1"
-              format="webp"
-              src={photo.src}
-              class="w-full h-full object-cover rounded"
-              alt={photo.alt}
-            />
-          </div>
+          <Image
+            width={1080}
+            aspectRatio={photo.aspectRatio}
+            format="webp"
+            src={photo.src}
+            class="w-full h-full object-cover rounded"
+            alt={photo.alt}
+          />
         ))
       }
     </div>

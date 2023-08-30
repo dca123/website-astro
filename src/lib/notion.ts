@@ -114,18 +114,23 @@ export const getPhotos = async (page_id: string) => {
 
   return database.results.map((page) => {
     if (isFullPage(page)) {
-      const { name, src } = page.properties;
+      const { name, src, aspectRatio } = page.properties;
       if (name.type !== "title") {
         throw new Error(`Name is not defined for page ${page.id}`);
       }
       if (src.type !== "url" || src.url === null) {
         throw new Error(`Src is not defined for page ${page.id}`);
       }
+      if (aspectRatio.type !== "select" || aspectRatio.select === null) {
+        throw new Error(`Aspect Ratio is not defined for page ${page.id}`);
+      }
+
       return {
         id: page.id,
         src: src.url,
         alt: `Photo ${page.id}`,
         name: name.title[0].plain_text,
+        aspectRatio: aspectRatio.select.name as `${number}:${number}`,
       };
     } else {
       throw new Error("Page is not a full page");
