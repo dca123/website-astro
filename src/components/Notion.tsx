@@ -4,6 +4,7 @@ import type {
 } from "@notionhq/client/build/src/api-endpoints";
 import { clsx } from "clsx";
 import type { Content } from "../lib/notionExtracter";
+import {twMerge} from 'tailwind-merge'
 
 const NotionColorMap: Record<
   TextRichTextItemResponse["annotations"]["color"],
@@ -34,20 +35,21 @@ const RichTextSpan = (
   { content }: { content: Array<RichTextItemResponse> },
 ) => {
   const blocks = content.map((text) => {
+    
     const { bold, color: notionColor, italic, code, strikethrough, underline } =
       text.annotations;
     const color = NotionColorMap[notionColor];
     return (
       <span
         key={text.plain_text}
-        className={clsx(
+        className={twMerge(clsx(
           bold && "font-extrabold",
           italic && "italic",
           color,
-          code && "bg-gray-700 text-red-300 px-2 rounded font-mono",
+          code && "bg-gray-700 text-red-300 px-1 rounded font-mono text-sm",
           strikethrough && "line-through",
           underline && "underline",
-        )}
+        ))}
       >
         {text.plain_text}
       </span>
@@ -106,6 +108,8 @@ export default function Notion({
             ))}
           </ol>
         );
+        default:
+          console.log ("Unknown type: ", type)
     }
   });
 }

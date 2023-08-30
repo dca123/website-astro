@@ -1,6 +1,5 @@
 import { isFullBlock } from "@notionhq/client";
 import type { ListBlockChildrenResponse, RichTextItemResponse } from "@notionhq/client/build/src/api-endpoints";
-import { response } from "./notion";
 
 export type Content = Awaited<ReturnType<typeof extractContent>>;
 

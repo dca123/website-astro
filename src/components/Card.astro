@@ -11,7 +11,7 @@ export interface Props {
 
 const { description, skills, title, slug } = Astro.props;
 const cover = import.meta.env.DEV
-  ? "https://via.placeholder.com/600"
+  ? "https://source.unsplash.com/random/600/?landscape"
   : Astro.props.cover;
 ---
 

@@ -1,15 +1,8 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 
-import { faker } from "@faker-js/faker";
-const albums = Array.from({ length: 10 }, (_, i) => ({
-  id: i,
-  src: `https://picsum.photos/seed/${i}/1080`,
-  alt: `Photo ${i}`,
-  name: faker.word.noun().toUpperCase(),
-  description: faker.lorem.sentences(2),
-  date: faker.date.past(5),
-})).sort((a, b) => b.date.getTime() - a.date.getTime());
+import { getAlbums } from "../../lib/notion";
+const albums = await getAlbums("076c02479a7e4a4a80c54569831d85e5");
 ---
 
 <Layout title="Albums">
@@ -17,13 +10,13 @@ const albums = Array.from({ length: 10 }, (_, i) => ({
   <div class="my-6">
     {
       albums.map((album, idx) => (
-        <>
+        <a href=`/albums/${album.slug}`>
           <div class:list={["flex flex-col md:hidden", { "pt-12": idx > 0 }]}>
             <h1 class="text-white text-3xl font-title font-bold tracking-wider">
               {album.name}
             </h1>
             <h2 class="text-slate-200 text-sm tracking-wider font-title ">
-              {album.date.toLocaleDateString()}
+              {album.date}
             </h2>
             <div class=" relative mt-3">
               <div class="aspect-h-5 aspect-w-3">
@@ -59,14 +52,14 @@ const albums = Array.from({ length: 10 }, (_, i) => ({
                 {album.name}
               </h1>
               <h2 class="text-slate-200 text-sm tracking-wider font-title ">
-                {album.date.toLocaleDateString()}
+                {album.date}
               </h2>
               <div class="text-slate-100 pt-5">
                 <p>{album.description}</p>
               </div>
             </div>
           </div>
-        </>
+        </a>
       ))
     }
   </div>

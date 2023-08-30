@@ -1,37 +1,64 @@
 ---
+import { Image } from "@astrojs/image/components";
 import Layout from "../../layouts/Layout.astro";
+import { getAlbums, getPhotos, Images } from "../../lib/notion";
+import { readFileSync, writeFileSync } from "fs";
+
+export type Props = {
+  title: string;
+  description: string;
+  date: string;
+  photos: Images;
+};
 
 export async function getStaticPaths() {
-  return [
-    {
-      props: {
-        title: "Wadduwa",
-        description: "Trip to Wadduwa",
-        photos: Array.from(
-          {
-            length: 10,
-          },
-          (_, i) => `https://picsum.photos/300`
-        ),
-      },
-      params: {
-        slug: "wadduwa",
-      },
-    },
-  ];
+  if (import.meta.env.DEV) {
+    const projects = await getAlbums("076c02479a7e4a4a80c54569831d85e5");
+    const paths = [];
+
+    for (const project of projects) {
+      const photos = await getPhotos(project.id);
+      paths.push({
+        params: {
+          slug: project.slug,
+        },
+        props: {
+          title: project.name,
+          description: project.description,
+          date: project.date,
+          photos,
+        },
+      });
+    }
+    writeFileSync("albums.json", JSON.stringify(paths));
+    return paths;
+  }
+
+  const paths = JSON.parse(readFileSync("albums.json", "utf-8"));
+  return paths;
 }
 
-const { title, description, photos } = Astro.props;
+const { title, description, date, photos } = Astro.props;
 ---
 
 <Layout title={title}>
   <div class="py-7">
     <h1 class="font-title text-white tracking-wider text-xl">{title}</h1>
     <p class="text-slate-200">{description}</p>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-5">
+    <p class="text-slate-200">{date}</p>
+    <div class="flex flex-col space-y-8 mt-5">
       {
         photos.map((photo) => (
-          <img src={photo} class="w-full object-cover rounded" />
+          <div class="aspect-h-9 aspect-w-32">
+            <Image
+              height={800}
+              aspectRatio="1:1"
+              format="webp"
+              src={photo.src}
+              class="w-full h-full object-cover rounded"
+              alt={photo.alt}
+            />
+          </div>
         ))
       }
     </div>
