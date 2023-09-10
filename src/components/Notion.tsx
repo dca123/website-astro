@@ -4,7 +4,8 @@ import type {
 } from "@notionhq/client/build/src/api-endpoints";
 import { clsx } from "clsx";
 import type { Content } from "../lib/notionExtracter";
-import {twMerge} from 'tailwind-merge'
+import { twMerge } from "tailwind-merge";
+import shiki, { getHighlighter } from "shiki";
 
 const NotionColorMap: Record<
   TextRichTextItemResponse["annotations"]["color"],
@@ -31,25 +32,34 @@ const NotionColorMap: Record<
   default: "text-white",
 };
 
-const RichTextSpan = (
-  { content }: { content: Array<RichTextItemResponse> },
-) => {
+const RichTextSpan = ({
+  content,
+}: {
+  content: Array<RichTextItemResponse>;
+}) => {
   const blocks = content.map((text) => {
-    
-    const { bold, color: notionColor, italic, code, strikethrough, underline } =
-      text.annotations;
+    const {
+      bold,
+      color: notionColor,
+      italic,
+      code,
+      strikethrough,
+      underline,
+    } = text.annotations;
     const color = NotionColorMap[notionColor];
     return (
       <span
         key={text.plain_text}
-        className={twMerge(clsx(
-          bold && "font-extrabold",
-          italic && "italic",
-          color,
-          code && "bg-gray-700 text-red-300 px-1 rounded font-mono text-sm",
-          strikethrough && "line-through",
-          underline && "underline",
-        ))}
+        className={twMerge(
+          clsx(
+            bold && "font-extrabold",
+            italic && "italic",
+            color,
+            code && "bg-gray-700 text-red-300 px-1 rounded font-mono text-sm",
+            strikethrough && "line-through",
+            underline && "underline",
+          ),
+        )}
       >
         {text.plain_text}
       </span>
@@ -59,37 +69,39 @@ const RichTextSpan = (
   return <>{blocks}</>;
 };
 
-export default function Notion({
-  blocks,
-}: {
-  blocks: Content;
-}) {
-  return blocks.map(({ content, type }) => {
-    switch (type) {
+const highlighter = await getHighlighter({
+  theme: "github-dark",
+});
+
+export default function Notion({ blocks }: { blocks: Content }) {
+  return blocks.map((block) => {
+    switch (block.type) {
       case "paragraph":
-        return <p className="pt-1">{RichTextSpan({ content: content })}</p>;
+        return (
+          <p className="pt-1">{RichTextSpan({ content: block.content })}</p>
+        );
       case "heading_1":
         return (
           <h1 className="text-3xl font-medium font-title pt-5 tracking-wider">
-            <RichTextSpan content={content} />
+            <RichTextSpan content={block.content} />
           </h1>
         );
       case "heading_2":
         return (
           <h2 className="text-2xl font-normal font-title pt-4 tracking-wide">
-            <RichTextSpan content={content} />
+            <RichTextSpan content={block.content} />
           </h2>
         );
       case "heading_3":
         return (
           <h3 className="text-xl font-light font-title pt-2">
-            <RichTextSpan content={content} />
+            <RichTextSpan content={block.content} />
           </h3>
         );
       case "bulleted_list_item":
         return (
           <ul className="list-disc list-inside text-white">
-            {content.map((content, idx) => (
+            {block.content.map((content, idx) => (
               <li key={idx}>
                 <RichTextSpan content={content} />
               </li>
@@ -99,7 +111,7 @@ export default function Notion({
       case "numbered_list_item":
         return (
           <ol className="list-decimal list-inside text-white space-y-2">
-            {content.map((content, idx) => (
+            {block.content.map((content, idx) => (
               <li key={idx}>
                 <span className="pl-1">
                   <RichTextSpan content={content} />
@@ -108,8 +120,31 @@ export default function Notion({
             ))}
           </ol>
         );
-        default:
-          console.log ("Unknown type: ", type)
+      case "code":
+        let lang = block.language;
+        if (lang === "typescript") lang = "tsx";
+        if (lang === "javascript") lang = "jsx";
+
+        const code = highlighter.codeToThemedTokens(
+          block.content[0].plain_text,
+          lang,
+        );
+        const html = shiki.renderToHtml(code, {
+          bg: highlighter.getBackgroundColor("github-dark"),
+          fg: highlighter.getForegroundColor("github-dark"),
+          elements: {
+            pre(props) {
+              return `<pre class="${props.className} p-4 rounded overflow-x-auto text-sm" style="${props.style}">${props.children}</pre>`;
+            },
+          },
+        });
+
+        return <div dangerouslySetInnerHTML={{ __html: html }} />;
+
+      default:
+        return (
+          <h1 className="text-red-400">Missing {block.content} block here</h1>
+        );
     }
   });
 }

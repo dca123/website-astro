@@ -1,7 +1,7 @@
 ---
 import Skill from "../../components/Skill.astro";
 import Layout from "../../layouts/Layout.astro";
-import { Content, extractContent } from "../../lib/notionExtracter";
+import { type Content, extractContent } from "../../lib/notionExtracter";
 import Notion from "../../components/Notion";
 import { getProjects, response } from "../../lib/notion";
 import { readFileSync, writeFileSync } from "fs";
