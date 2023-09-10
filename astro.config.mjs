@@ -18,7 +18,7 @@ export default defineConfig({
     imageService: true,
     imagesConfig: {
       sizes: [320, 640, 1080, 1280],
-      domains: ["images.unsplash.com"],
+      domains: ["images.unsplash.com", "res.cloudinary.com"],
     },
   }),
 });
