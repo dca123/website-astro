@@ -13,5 +13,11 @@ import vercel from "@astrojs/vercel/static";
 export default defineConfig({
   integrations: [tailwind(), react(), prefetch()],
   output: "static",
-  adapter: vercel(),
+  adapter: vercel({
+    analytics: true,
+    imageService: true,
+    imagesConfig: {
+      sizes: [320, 640, 1280],
+    },
+  }),
 });
