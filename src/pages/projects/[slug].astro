@@ -6,6 +6,7 @@ import Notion from "../../components/Notion";
 import { getProjects, response } from "../../lib/notion";
 import { readFileSync, writeFileSync } from "fs";
 type Project = Awaited<ReturnType<typeof getProjects>>[0];
+import { Image } from "astro:assets";
 
 export type Props = Project & {
   blocks: Content;
@@ -45,11 +46,13 @@ const { blocks, cover, skills, title, date } = Astro.props;
     <h1 class="text-white text-xl font-title">{title}</h1>
     <p class="text-white font-light text-sm font-title">{date}</p>
   </div>
-  <div class="aspect-h-5 aspect-w-4 md:aspect-h-1 md:aspect-w-2 mt-4">
-    <img
+  <div class="aspect-w-4 aspect-h-5 md:aspect-h-1 md:aspect-w-2 mt-4">
+    <Image
       src={cover}
       alt="placeholder"
       class="min-w-full rounded object-cover"
+      width={1080}
+      height={1350}
     />
   </div>
 
