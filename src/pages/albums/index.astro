@@ -1,5 +1,5 @@
 ---
-import { Image } from "@astrojs/image/components";
+import { Image } from "astro:assets";
 import Layout from "../../layouts/Layout.astro";
 
 import { getAlbums } from "../../lib/notion";
@@ -21,8 +21,8 @@ const albums = await getAlbums("076c02479a7e4a4a80c54569831d85e5");
             </h2>
             <div class="relative mt-3">
               <Image
-                aspectRatio="1:1"
                 width={800}
+                height={800}
                 src={album.src}
                 alt={album.alt}
                 format="webp"
@@ -43,7 +43,7 @@ const albums = await getAlbums("076c02479a7e4a4a80c54569831d85e5");
             <div class="h-full basis-1/2 ">
               <Image
                 width={1080}
-                aspectRatio="2:1"
+                height={1200}
                 src={album.src}
                 alt={album.alt}
                 format="webp"

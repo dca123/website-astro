@@ -1,7 +1,7 @@
 ---
-import { Image } from "@astrojs/image/components";
+import { Image } from "astro:assets";
 import Layout from "../../layouts/Layout.astro";
-import { getAlbums, getPhotos, Images } from "../../lib/notion";
+import { getAlbums, getPhotos, type Images } from "../../lib/notion";
 import { readFileSync, writeFileSync } from "fs";
 
 export type Props = {
@@ -50,16 +50,24 @@ const { title, description, date, photos } = Astro.props;
       class="flex flex-col space-y-8 mt-5 md:grid md:grid-cols-2 md:space-y-0 md:gap-3"
     >
       {
-        photos.map((photo) => (
-          <Image
-            width={1080}
-            aspectRatio={photo.aspectRatio}
-            format="webp"
-            src={photo.src}
-            class="w-full h-full object-cover rounded"
-            alt={photo.alt}
-          />
-        ))
+        photos.map((photo) => {
+          let height = 1080;
+          if (photo.aspectRatio === "4:5") {
+            height = 1350;
+          } else if (photo.aspectRatio === "1.91:1") {
+            height = 565;
+          }
+          return (
+            <Image
+              width={1080}
+              height={height}
+              format="webp"
+              src={photo.src}
+              class="w-full h-full object-cover rounded"
+              alt={photo.alt}
+            />
+          );
+        })
       }
     </div>
   </div>
