@@ -115,11 +115,12 @@ export const getPhotos = async (page_id: string) => {
   return database.results.map((page) => {
     if (isFullPage(page)) {
       const { name, src, aspectRatio } = page.properties;
+      const { cover } = page;
       if (name.type !== "title") {
         throw new Error(`Name is not defined for page ${page.id}`);
       }
-      if (src.type !== "url" || src.url === null) {
-        throw new Error(`Src is not defined for page ${page.id}`);
+      if (cover === null || cover.type !== "external") {
+        throw new Error(`Image has not been uploaded for page ${page.id}`);
       }
       if (aspectRatio.type !== "select" || aspectRatio.select === null) {
         throw new Error(`Aspect Ratio is not defined for page ${page.id}`);
@@ -127,7 +128,7 @@ export const getPhotos = async (page_id: string) => {
 
       return {
         id: page.id,
-        src: src.url,
+        src: cover.external.url,
         alt: `Photo ${page.id}`,
         name: name.title[0].plain_text,
         aspectRatio: aspectRatio.select.name as `${number}:${number}`,
