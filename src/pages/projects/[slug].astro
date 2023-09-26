@@ -13,7 +13,7 @@ export type Props = Project & {
 };
 
 export async function getStaticPaths() {
-  if (!import.meta.env.PROD) {
+  if (import.meta.env.PROD) {
     const projects = await getProjects("4f1fd603748b44d58615d782979d7a1e");
     const paths = [];
 
