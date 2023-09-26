@@ -18,6 +18,13 @@ export const extractContent = async (blocks: ListBlockChildrenResponse) => {
         language: string;
       }
     | {
+        type: "image";
+        content: {
+          caption: Array<RichTextItemResponse>;
+          url: string;
+        };
+      }
+    | {
         type: "bulleted_list_item" | "numbered_list_item";
         content: Array<Array<RichTextItemResponse>>;
       }
@@ -92,6 +99,26 @@ export const extractContent = async (blocks: ListBlockChildrenResponse) => {
             content: block.code.rich_text,
             language: block.code.language,
           });
+          break;
+        }
+        case "image": {
+          if (block.image.type === "file") {
+            transformedBlocks.push({
+              type: "image",
+              content: {
+                caption: block.image.caption,
+                url: block.image.file.url,
+              },
+            });
+          } else {
+            transformedBlocks.push({
+              type: "image",
+              content: {
+                caption: block.image.caption,
+                url: block.image.external.url,
+              },
+            });
+          }
           break;
         }
         default:

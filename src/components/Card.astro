@@ -10,10 +10,10 @@ export interface Props {
   cover: string;
 }
 
-const { description, skills, title, slug } = Astro.props;
-const cover = import.meta.env.DEV
-  ? "https://source.unsplash.com/random/600/?landscape"
-  : Astro.props.cover;
+const { description, skills, title, slug, cover } = Astro.props;
+// const cover = import.meta.env.DEV
+// ? "https://source.unsplash.com/random/600/?landscape"
+// : Astro.props.cover;
 ---
 
 <a href={"projects/" + slug} rel="prefetch">
@@ -21,7 +21,7 @@ const cover = import.meta.env.DEV
     <div class="aspect-h-3 aspect-w-4">
       <Image
         src={cover}
-        alt="placeholder"
+        alt={`Cover image for ${title}`}
         class="min-w-full rounded rounded-b-none object-cover"
         width={1080}
         height={810}

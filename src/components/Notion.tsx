@@ -6,6 +6,7 @@ import { clsx } from "clsx";
 import type { Content } from "../lib/notionExtracter";
 import { twMerge } from "tailwind-merge";
 import shiki, { getHighlighter } from "shiki";
+import { getImage } from "astro/assets";
 
 const NotionColorMap: Record<
   TextRichTextItemResponse["annotations"]["color"],
@@ -140,7 +141,8 @@ export default function Notion({ blocks }: { blocks: Content }) {
         });
 
         return <div dangerouslySetInnerHTML={{ __html: html }} />;
-
+      case "image":
+        return <img src={block.content.url} />;
       default:
         return (
           <h1 className="text-red-400">Missing {block.content} block here</h1>
