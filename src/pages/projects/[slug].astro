@@ -6,7 +6,7 @@ import Notion from "../../components/Notion";
 import { getProjects, response } from "../../lib/notion";
 import { readFileSync, writeFileSync } from "fs";
 type Project = Awaited<ReturnType<typeof getProjects>>[0];
-import { Image, getImage } from "astro:assets";
+import { Image } from "astro:assets";
 
 export type Props = Project & {
   blocks: Content;
