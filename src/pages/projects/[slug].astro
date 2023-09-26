@@ -43,27 +43,29 @@ const { blocks, cover, skills, title, date } = Astro.props;
 ---
 
 <Layout title={title + " | Devinda Senanayake"}>
-  <div class="flex flex-col justify-between mt-4">
-    <h1 class="text-white text-xl font-title">{title}</h1>
-    <p class="text-white font-light text-sm font-title">{date}</p>
-  </div>
-  <div class="aspect-w-4 aspect-h-5 md:aspect-h-1 md:aspect-w-2 mt-4">
-    <Image
-      src={cover}
-      alt="placeholder"
-      class="min-w-full rounded object-cover"
-      width={1080}
-      height={1350}
-    />
-  </div>
+  <div class="mx-0 text-base md:mx-28 md:text-lg">
+    <div class="flex flex-col justify-between mt-4">
+      <h1 class="text-white text-xl font-title">{title}</h1>
+      <p class="text-white font-light text-sm font-title">{date}</p>
+    </div>
+    <div class="aspect-w-4 aspect-h-5 md:aspect-h-1 md:aspect-w-2 mt-4">
+      <Image
+        src={cover}
+        alt="placeholder"
+        class="min-w-full rounded object-cover"
+        width={1080}
+        height={1350}
+      />
+    </div>
 
-  <div class="flex space-x-2 pt-4">
-    {skills.map((skill) => <Skill title={skill} size="medium" />)}
-  </div>
+    <div class="flex space-x-2 pt-4">
+      {skills.map((skill) => <Skill title={skill} size="medium" />)}
+    </div>
 
-  <hr class="h-px mt-6 bg-gray-200 border-0 dark:bg-gray-700" />
+    <hr class="h-px mt-6 bg-gray-200 border-0 dark:bg-gray-700" />
 
-  <div class="space-y-2 pb-6">
-    <Notion blocks={blocks} />
+    <div class="space-y-3 pb-6">
+      <Notion blocks={blocks} />
+    </div>
   </div>
 </Layout>

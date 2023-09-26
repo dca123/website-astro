@@ -59,6 +59,7 @@ const RichTextSpan = ({
             code && "bg-gray-700 text-red-300 px-1 rounded font-mono text-sm",
             strikethrough && "line-through",
             underline && "underline",
+            "leading-relaxed",
           ),
         )}
       >
@@ -144,8 +145,9 @@ export default function Notion({ blocks }: { blocks: Content }) {
       case "image":
         return (
           <img
-            {...block.content.transformedImage}
+            {...block.content.transformedImage.attributes}
             src={block.content.transformedImage.src}
+            className="w-full md:w-2/3 object-contain rounded mx-auto"
           />
         );
       default:
