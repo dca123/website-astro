@@ -7,7 +7,6 @@ import { getProjects, response } from "../../lib/notion";
 import { readFileSync, writeFileSync } from "fs";
 type Project = Awaited<ReturnType<typeof getProjects>>[0];
 import { Image, getImage } from "astro:assets";
-import type { RichTextItemResponse } from "@notionhq/client/build/src/api-endpoints";
 
 export type Props = Project & {
   blocks: Content;
@@ -20,27 +19,14 @@ export async function getStaticPaths() {
 
     for (const project of projects) {
       const notionData = await response(project.page_id);
-      const content = await extractContent(notionData);
-      const contentWithImages = await Promise.all(
-        content.map(async (block) => {
-          if (block.type !== "image") return block;
-          const image = await getImage({
-            src: block.content.url,
-            width: 1080,
-          });
-          return {
-            type: "image",
-            content: image,
-          };
-        }),
-      );
+      const content = await extractContent(notionData, project.page_id);
 
       paths.push({
         params: {
           slug: project.slug,
         },
         props: {
-          blocks: contentWithImages,
+          blocks: content,
           ...project,
         },
       });

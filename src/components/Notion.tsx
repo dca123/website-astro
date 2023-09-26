@@ -142,7 +142,12 @@ export default function Notion({ blocks }: { blocks: Content }) {
 
         return <div dangerouslySetInnerHTML={{ __html: html }} />;
       case "image":
-        return <img src={block.content.url} />;
+        return (
+          <img
+            {...block.content.transformedImage}
+            src={block.content.transformedImage.src}
+          />
+        );
       default:
         return (
           <h1 className="text-red-400">Missing {block.content} block here</h1>

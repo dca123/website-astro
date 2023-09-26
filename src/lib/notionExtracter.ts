@@ -3,10 +3,17 @@ import type {
   ListBlockChildrenResponse,
   RichTextItemResponse,
 } from "@notionhq/client/build/src/api-endpoints";
+import { uploadToCloudinary } from "./cloudinary";
+import { getImage } from "astro/assets";
+import { imageConfig } from "astro:assets";
+import type { GetImageResult } from "astro";
 
 export type Content = Awaited<ReturnType<typeof extractContent>>;
 
-export const extractContent = async (blocks: ListBlockChildrenResponse) => {
+export const extractContent = async (
+  blocks: ListBlockChildrenResponse,
+  blogId: string,
+) => {
   const transformedBlocks: Array<
     | {
         type: "paragraph" | "heading_1" | "heading_2" | "heading_3";
@@ -21,7 +28,7 @@ export const extractContent = async (blocks: ListBlockChildrenResponse) => {
         type: "image";
         content: {
           caption: Array<RichTextItemResponse>;
-          url: string;
+          transformedImage: GetImageResult;
         };
       }
     | {
@@ -103,19 +110,44 @@ export const extractContent = async (blocks: ListBlockChildrenResponse) => {
         }
         case "image": {
           if (block.image.type === "file") {
+            const uploadedFile = await uploadToCloudinary({
+              src: block.image.file.url,
+              blogId,
+            });
+
+            const transformedImage = await getImage(
+              {
+                src: uploadedFile.secure_url,
+                width: 1080,
+              },
+              imageConfig,
+            );
             transformedBlocks.push({
               type: "image",
               content: {
                 caption: block.image.caption,
-                url: block.image.file.url,
+
+                transformedImage,
               },
             });
           } else {
+            const uploadedFile = await uploadToCloudinary({
+              src: block.image.external.url,
+              blogId,
+            });
+            const transformedImage = await getImage(
+              {
+                src: uploadedFile.secure_url,
+                width: 1080,
+              },
+              imageConfig,
+            );
             transformedBlocks.push({
               type: "image",
               content: {
                 caption: block.image.caption,
-                url: block.image.external.url,
+
+                transformedImage,
               },
             });
           }
