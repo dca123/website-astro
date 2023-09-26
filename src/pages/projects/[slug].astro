@@ -40,8 +40,6 @@ export async function getStaticPaths() {
 }
 
 const { blocks, cover, skills, title, date } = Astro.props;
-const blocksWithImages = blocks.filter((block) => block.type === "image");
-console.log(blocksWithImages);
 ---
 
 <Layout title={title + " | Devinda Senanayake"}>
