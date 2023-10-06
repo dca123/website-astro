@@ -48,7 +48,7 @@ const RichTextSpan = ({
       underline,
     } = text.annotations;
     const color = NotionColorMap[notionColor];
-    return (
+    const Block = ({ className }: { className?: string }) => (
       <span
         key={text.plain_text}
         className={twMerge(
@@ -60,12 +60,21 @@ const RichTextSpan = ({
             strikethrough && "line-through",
             underline && "underline",
             "leading-relaxed",
+            className,
           ),
         )}
       >
         {text.plain_text}
       </span>
     );
+
+    if (text.href !== null)
+      return (
+        <a href={text.href}>
+          <Block className="underline" />
+        </a>
+      );
+    return <Block />;
   });
 
   return <>{blocks}</>;

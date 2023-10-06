@@ -5,6 +5,11 @@ export async function uploadToCloudinary(image: {
   src: string;
   blogId: string;
 }) {
+  if (import.meta.env.DEV) {
+    return {
+      secure_url: "https://source.unsplash.com/random",
+    };
+  }
   console.log(`uploading ${image.src} to cloudinary`);
   const uploadedFile = await cloudinary.uploader.upload(image.src, {
     resource_type: "image",
