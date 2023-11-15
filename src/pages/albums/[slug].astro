@@ -50,7 +50,7 @@ const { title, description, date, photos } = Astro.props;
       class="flex flex-col space-y-8 mt-5 md:grid md:grid-cols-2 md:space-y-0 md:gap-3"
     >
       {
-        photos.map((photo) => {
+        photos.map((photo, i) => {
           let height = 1080;
           if (photo.aspectRatio === "4:5") {
             height = 1350;
@@ -63,8 +63,9 @@ const { title, description, date, photos } = Astro.props;
               height={height}
               format="webp"
               src={photo.src}
-              class="w-full h-full object-cover rounded"
+              class="w-full h-full object-cover rounded bg-gray-700"
               alt={photo.alt}
+              loading={i < 3 ? "eager" : "lazy"}
             />
           );
         })
