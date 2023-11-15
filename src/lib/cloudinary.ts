@@ -14,8 +14,7 @@ export async function uploadToCloudinary(image: {
   const uploadedFile = await cloudinary.uploader.upload(image.src, {
     resource_type: "image",
     folder: FOLDER_NAME + "/" + image.blogId,
-    use_filename: true,
-    unique_filename: false,
+    unique_filename: true,
   });
   return uploadedFile;
 }
