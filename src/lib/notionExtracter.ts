@@ -7,6 +7,7 @@ import { uploadToCloudinary } from "./cloudinary";
 import { getImage } from "astro/assets";
 import { imageConfig } from "astro:assets";
 import type { GetImageResult } from "astro";
+import { calculateDesiredHeight } from "./imageDimensions";
 
 export type Content = Awaited<ReturnType<typeof extractContent>>;
 
@@ -114,11 +115,14 @@ export const extractContent = async (
               src: block.image.file.url,
               blogId,
             });
-
+            const desiredHeight = await calculateDesiredHeight(
+              uploadedFile.secure_url,
+            );
             const transformedImage = await getImage(
               {
                 src: uploadedFile.secure_url,
                 width: 1080,
+                height: desiredHeight,
               },
               imageConfig,
             );
@@ -135,10 +139,14 @@ export const extractContent = async (
               src: block.image.external.url,
               blogId,
             });
+            const desiredHeight = await calculateDesiredHeight(
+              uploadedFile.secure_url,
+            );
             const transformedImage = await getImage(
               {
                 src: uploadedFile.secure_url,
                 width: 1080,
+                height: desiredHeight,
               },
               imageConfig,
             );
