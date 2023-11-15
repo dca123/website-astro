@@ -65,7 +65,7 @@ const { title, description, date, photos } = Astro.props;
               src={photo.src}
               class="w-full h-full object-cover rounded bg-gray-700"
               alt={photo.alt}
-              loading={i < 3 ? "eager" : "lazy"}
+              loading={i < 4 ? "eager" : "lazy"}
             />
           );
         })
