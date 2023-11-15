@@ -6,7 +6,6 @@ import { clsx } from "clsx";
 import type { Content } from "../lib/notionExtracter";
 import { twMerge } from "tailwind-merge";
 import shiki, { getHighlighter } from "shiki";
-import { getImage } from "astro/assets";
 
 const NotionColorMap: Record<
   TextRichTextItemResponse["annotations"]["color"],
@@ -153,11 +152,16 @@ export default function Notion({ blocks }: { blocks: Content }) {
         return <div dangerouslySetInnerHTML={{ __html: html }} />;
       case "image":
         return (
-          <img
-            {...block.content.transformedImage.attributes}
-            src={block.content.transformedImage.src}
-            className="w-full md:w-2/3 object-contain rounded mx-auto"
-          />
+          <figure className="w-full space-y-1">
+            <img
+              {...block.content.transformedImage.attributes}
+              src={block.content.transformedImage.src}
+              className="w-full md:w-2/3 object-contain rounded mx-auto"
+            />
+            <figcaption className="text-center text-sm">
+              <RichTextSpan content={block.content.caption} />
+            </figcaption>
+          </figure>
         );
       default:
         return (

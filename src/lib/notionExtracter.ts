@@ -131,7 +131,6 @@ export const extractContent = async (
               type: "image",
               content: {
                 caption: block.image.caption,
-
                 transformedImage,
               },
             });
@@ -156,7 +155,6 @@ export const extractContent = async (
               type: "image",
               content: {
                 caption: block.image.caption,
-
                 transformedImage,
               },
             });
