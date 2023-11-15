@@ -1,10 +1,9 @@
-import sharp from "sharp";
-
-export async function calculateDesiredHeight(input: string, width = 1080) {
-  const metadata = await sharp(input).metadata();
-  if (metadata.height === undefined || metadata.width === undefined) {
-    throw new Error("Could not get image dimensions");
-  }
-  const desiredHeight = Math.round((width / metadata.width) * metadata.height);
+export function calculateDesiredHeight(
+  imageParams: { width: number; height: number },
+  desiredWidth = 1080,
+) {
+  const desiredHeight = Math.round(
+    (desiredWidth / imageParams.width) * imageParams.height,
+  );
   return desiredHeight;
 }

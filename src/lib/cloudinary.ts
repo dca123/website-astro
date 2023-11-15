@@ -1,4 +1,4 @@
-import { v2 as cloudinary } from "cloudinary";
+import { v2 as cloudinary, type UploadApiResponse } from "cloudinary";
 
 const FOLDER_NAME = "devinda.me/blog";
 export async function uploadToCloudinary(image: {
@@ -8,7 +8,7 @@ export async function uploadToCloudinary(image: {
   if (import.meta.env.DEV) {
     return {
       secure_url: "https://source.unsplash.com/random",
-    };
+    } as UploadApiResponse;
   }
   console.log(`uploading ${image.src} to cloudinary`);
   const uploadedFile = await cloudinary.uploader.upload(image.src, {

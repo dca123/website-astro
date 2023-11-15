@@ -115,9 +115,10 @@ export const extractContent = async (
               src: block.image.file.url,
               blogId,
             });
-            const desiredHeight = await calculateDesiredHeight(
-              uploadedFile.secure_url,
-            );
+            const desiredHeight = calculateDesiredHeight({
+              height: uploadedFile.height,
+              width: uploadedFile.width,
+            });
             const transformedImage = await getImage(
               {
                 src: uploadedFile.secure_url,
@@ -139,9 +140,10 @@ export const extractContent = async (
               src: block.image.external.url,
               blogId,
             });
-            const desiredHeight = await calculateDesiredHeight(
-              uploadedFile.secure_url,
-            );
+            const desiredHeight = calculateDesiredHeight({
+              height: uploadedFile.height,
+              width: uploadedFile.width,
+            });
             const transformedImage = await getImage(
               {
                 src: uploadedFile.secure_url,
