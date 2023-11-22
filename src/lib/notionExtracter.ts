@@ -17,7 +17,7 @@ export const extractContent = async (
 ) => {
   const transformedBlocks: Array<
     | {
-        type: "paragraph" | "heading_1" | "heading_2" | "heading_3";
+        type: "paragraph" | "heading_1" | "heading_2" | "heading_3" | "quote";
         content: Array<RichTextItemResponse>;
       }
     | {
@@ -161,6 +161,14 @@ export const extractContent = async (
           }
           break;
         }
+        case "quote": {
+          transformedBlocks.push({
+            type: "quote",
+            content: block.quote.rich_text,
+          });
+          break;
+        }
+
         default:
           transformedBlocks.push({ type: "unknown", content: block.type });
       }
