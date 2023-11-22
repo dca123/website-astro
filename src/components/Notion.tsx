@@ -6,7 +6,6 @@ import { clsx } from "clsx";
 import type { Content } from "../lib/notionExtracter";
 import { twMerge } from "tailwind-merge";
 import shiki, { getHighlighter } from "shiki";
-import { warnForMissingAlt } from "@astrojs/image/components";
 
 const NotionColorMap: Record<
   TextRichTextItemResponse["annotations"]["color"],
