@@ -47,7 +47,9 @@ const { title, description, date, photos } = Astro.props;
     <h1 class="font-title text-white tracking-wider text-xl">{title}</h1>
     <p class="text-slate-400">{description}</p>
     <p class="text-slate-400">{date}</p>
-    <div class="pt-2 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-2">
+    <div
+      class="pt-2 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 md:gap-2"
+    >
       {
         photos.map((photo, i) => {
           let height = 1080;
@@ -72,7 +74,7 @@ const { title, description, date, photos } = Astro.props;
                 height={height}
                 format="webp"
                 src={photo.src}
-                class="h-full w-full object-cover rounded bg-gray-700 hover:scale-105 transition duration-300"
+                class="h-full w-full object-cover rounded bg-gray-700 md:hover:scale-105 transition duration-300"
                 alt={photo.alt}
                 loading={i < 4 ? "eager" : "lazy"}
               />
