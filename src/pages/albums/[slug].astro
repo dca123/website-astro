@@ -47,7 +47,7 @@ const { title, description, date, photos } = Astro.props;
     <h1 class="font-title text-white tracking-wider text-xl">{title}</h1>
     <p class="text-slate-400">{description}</p>
     <p class="text-slate-400">{date}</p>
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-2">
+    <div class="pt-2 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-2">
       {
         photos.map((photo, i) => {
           let height = 1080;
