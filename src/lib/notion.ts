@@ -116,8 +116,13 @@ export const getPhotos = async (page_id: string) => {
   }
   const database = await notion.databases.query({
     database_id: databaseBlock.id,
+    sorts: [
+      {
+        property: "displayId",
+        direction: "ascending",
+      },
+    ],
   });
-
   return database.results.map((page) => {
     if (isFullPage(page)) {
       const { name, src, aspectRatio } = page.properties;

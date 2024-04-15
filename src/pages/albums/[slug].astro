@@ -3,6 +3,7 @@ import { Image } from "astro:assets";
 import Layout from "../../layouts/Layout.astro";
 import { getAlbums, getPhotos, type Images } from "../../lib/notion";
 import { readFileSync, writeFileSync } from "fs";
+import { clsx } from "clsx";
 
 export type Props = {
   title: string;
@@ -44,11 +45,9 @@ const { title, description, date, photos } = Astro.props;
 <Layout title={title}>
   <div class="py-7">
     <h1 class="font-title text-white tracking-wider text-xl">{title}</h1>
-    <p class="text-slate-200">{description}</p>
-    <p class="text-slate-200">{date}</p>
-    <div
-      class="flex flex-col space-y-8 mt-5 md:grid md:grid-cols-2 md:space-y-0 md:gap-3"
-    >
+    <p class="text-slate-400">{description}</p>
+    <p class="text-slate-400">{date}</p>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-2">
       {
         photos.map((photo, i) => {
           let height = 1080;
@@ -58,15 +57,26 @@ const { title, description, date, photos } = Astro.props;
             height = 565;
           }
           return (
-            <Image
-              width={1080}
-              height={height}
-              format="webp"
-              src={photo.src}
-              class="w-full h-full object-cover rounded bg-gray-700"
-              alt={photo.alt}
-              loading={i < 4 ? "eager" : "lazy"}
-            />
+            <div
+              class={clsx(
+                "relative",
+                photo.aspectRatio === "1.91:1" && "md:col-span-2",
+                photo.aspectRatio === "4:5" && "md:row-span-2 md:col-span-2",
+                photo.aspectRatio === "1:1" && "md:row-span-2 md:col-span-2",
+                "overflow-hidden rounded",
+              )}
+              id={photo.name}
+            >
+              <Image
+                width={1080}
+                height={height}
+                format="webp"
+                src={photo.src}
+                class="h-full w-full object-cover rounded bg-gray-700 hover:scale-105 transition duration-300"
+                alt={photo.alt}
+                loading={i < 4 ? "eager" : "lazy"}
+              />
+            </div>
           );
         })
       }

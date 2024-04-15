@@ -6,7 +6,7 @@ export const GET: APIRoute = () => {
   return new Response(file, {
     headers: {
       "Content-Type": "application/pdf",
-      "Content-Disposition": "inline; filename=resume.pdf",
+      "Content-Disposition": "inline; filename='resume.pdf'",
     },
   });
 };
