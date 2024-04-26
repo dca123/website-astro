@@ -1,5 +1,5 @@
 import { expect, test } from "vitest";
-import { NotionDB, string, title } from "./notionDb";
+import { NotionDB, select, string, title } from "./notionDb";
 
 test("inserts title to page", async () => {
   const client = new NotionDB({
@@ -31,4 +31,19 @@ test("inserts string to page", async () => {
   });
 
   expect(response.properties.summary.rich_text[0].plain_text).toBe(summary);
+});
+
+test("inserts select to page", async () => {
+  const client = new NotionDB({
+    databaseId: "2a93636c71494fe88f3f810fcb0be6cf",
+    schema: {
+      whitespace: select(["hello", "world"]),
+    },
+  });
+
+  const response = await client.insert({
+    whitespace: "hello",
+  });
+
+  expect(response.properties.whitespace.select?.name).toBe("hello");
 });

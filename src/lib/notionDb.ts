@@ -3,12 +3,21 @@ import type {
   CreatePageParameters,
   PageObjectResponse,
 } from "@notionhq/client/build/src/api-endpoints";
+import type { Props } from "astro";
 
 type OutputProperties = PageObjectResponse["properties"]["string"];
 type OString = Extract<OutputProperties, { type?: "rich_text" }>;
 type OTitle = Extract<OutputProperties, { type?: "title" }>;
+type OSelect = Extract<OutputProperties, { type?: "select" }>;
 
-export class NotionDB<S extends Record<string, (data: string) => any>> {
+export class NotionDB<
+  S extends Record<
+    string,
+    | ReturnType<typeof title>
+    | ReturnType<typeof string>
+    | ReturnType<typeof select>
+  >,
+> {
   client: Client;
   databaseId: string;
   schema: S;
@@ -37,7 +46,9 @@ export class NotionDB<S extends Record<string, (data: string) => any>> {
         ? OString
         : S[P] extends ReturnType<typeof title>
           ? OTitle
-          : never;
+          : S[P] extends ReturnType<typeof select>
+            ? OSelect
+            : never;
     };
     if (isFullPage(response)) {
       return response as Omit<PageObjectResponse, "properties"> & {
@@ -47,9 +58,7 @@ export class NotionDB<S extends Record<string, (data: string) => any>> {
     throw new Error("Not full page");
   }
 
-  schemaToNotion<T extends { [P in keyof S]: Parameters<ReturnType<S[P]>>[0] }>(
-    data: T,
-  ) {
+  schemaToNotion<T extends { [P in keyof S]: Parameters<S[P]>[0] }>(data: T) {
     const res = {};
 
     for (const [key, value] of Object.entries(data)) {
@@ -100,5 +109,18 @@ export function string() {
         },
       ],
     } satisfies String;
+  };
+}
+
+type Select = Extract<Properties, { type?: "select" }>;
+
+export function select<const T extends string>(options: Array<T>) {
+  return <F extends T>(data: F) => {
+    return {
+      type: "select",
+      select: {
+        name: data,
+      },
+    } satisfies Select;
   };
 }
