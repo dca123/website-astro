@@ -1,5 +1,5 @@
 import { expect, test } from "vitest";
-import { NotionDB, select, string, title } from "./notionDb";
+import { NotionDB, date, select, string, title } from "./notionDb";
 
 test("inserts title to page", async () => {
   const client = new NotionDB({
@@ -14,7 +14,7 @@ test("inserts title to page", async () => {
     Name: name,
   });
 
-  expect(response.properties.Name.title[0].plain_text).toBe(name);
+  expect(response.properties.Name.title[0].plain_text).toEqual(name);
 });
 
 test("inserts string to page", async () => {
@@ -30,7 +30,7 @@ test("inserts string to page", async () => {
     summary,
   });
 
-  expect(response.properties.summary.rich_text[0].plain_text).toBe(summary);
+  expect(response.properties.summary.rich_text[0].plain_text).toEqual(summary);
 });
 
 test("inserts select to page", async () => {
@@ -45,5 +45,23 @@ test("inserts select to page", async () => {
     whitespace: "hello",
   });
 
-  expect(response.properties.whitespace.select?.name).toBe("hello");
+  expect(response.properties.whitespace.select.name).toEqual("hello");
+});
+
+test("inserts date to page", async () => {
+  const client = new NotionDB({
+    databaseId: "2a93636c71494fe88f3f810fcb0be6cf",
+    schema: {
+      birthday: date(),
+    },
+  });
+
+  const myBirthday = new Date("1997-07-25");
+  const response = await client.insert({
+    birthday: myBirthday,
+  });
+
+  expect(Date.parse(response.properties.birthday.date.start)).toEqual(
+    myBirthday.getTime(),
+  );
 });

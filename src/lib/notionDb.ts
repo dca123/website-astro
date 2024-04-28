@@ -3,12 +3,14 @@ import type {
   CreatePageParameters,
   PageObjectResponse,
 } from "@notionhq/client/build/src/api-endpoints";
-import type { Props } from "astro";
+
+type NonNullableObj<T> = { [K in keyof T]: NonNullable<T[K]> };
 
 type OutputProperties = PageObjectResponse["properties"]["string"];
 type OString = Extract<OutputProperties, { type?: "rich_text" }>;
 type OTitle = Extract<OutputProperties, { type?: "title" }>;
-type OSelect = Extract<OutputProperties, { type?: "select" }>;
+type OSelect = NonNullableObj<Extract<OutputProperties, { type?: "select" }>>;
+type ODate = NonNullableObj<Extract<OutputProperties, { type?: "date" }>>;
 
 export class NotionDB<
   S extends Record<
@@ -16,6 +18,7 @@ export class NotionDB<
     | ReturnType<typeof title>
     | ReturnType<typeof string>
     | ReturnType<typeof select>
+    | ReturnType<typeof date>
   >,
 > {
   client: Client;
@@ -48,7 +51,9 @@ export class NotionDB<
           ? OTitle
           : S[P] extends ReturnType<typeof select>
             ? OSelect
-            : never;
+            : S[P] extends ReturnType<typeof date>
+              ? ODate
+              : never;
     };
     if (isFullPage(response)) {
       return response as Omit<PageObjectResponse, "properties"> & {
@@ -122,5 +127,17 @@ export function select<const T extends string>(options: Array<T>) {
         name: data,
       },
     } satisfies Select;
+  };
+}
+
+type NDate = Extract<Properties, { type?: "date" }>;
+export function date() {
+  return (data: Date) => {
+    return {
+      type: "date",
+      date: {
+        start: data.toISOString(),
+      },
+    } satisfies NDate;
   };
 }
