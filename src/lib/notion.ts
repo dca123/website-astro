@@ -1,5 +1,6 @@
 import { Client, isFullBlock, isFullPage } from "@notionhq/client";
 import type { BlockObjectResponse } from "@notionhq/client/build/src/api-endpoints";
+import { NotionDB, date, select, title } from "./notionDb";
 
 export const notion = new Client({
   auth: import.meta.env.NOTION_API_KEY,
@@ -151,3 +152,44 @@ export const getPhotos = async (page_id: string) => {
 };
 
 export type Images = Awaited<ReturnType<typeof getPhotos>>;
+
+export const getPlaylists = async (databaseId: string) => {
+  const dbClient = new NotionDB({
+    client: notion,
+    databaseId,
+    schema: {
+      name: title(),
+      date_created: date(),
+      music_provider: select(["SoundCloud", "Youtube"]),
+    },
+  });
+
+  const data = [
+    {
+      name: "Chill Vibes",
+      songs: [
+        { name: "Sunset Dreams", artist: "ChillMaster" },
+        { name: "Ocean Breeze", artist: "Relaxation Beats" },
+        { name: "Morning Dew", artist: "Serenity Sounds" },
+      ],
+    },
+    {
+      name: "Workout Mix",
+      songs: [
+        { name: "Pump It Up", artist: "Fitness Beats" },
+        { name: "Run Faster", artist: "Cardio Crew" },
+        { name: "Power Surge", artist: "Energy Boosters" },
+      ],
+    },
+    {
+      name: "Road Trip Jams",
+      songs: [
+        { name: "Highway Adventure", artist: "Travel Tunes" },
+        { name: "Open Road Anthem", artist: "Wanderlust Band" },
+        { name: "Destination Unknown", artist: "Journey Beats" },
+      ],
+    },
+  ];
+
+  return data;
+};

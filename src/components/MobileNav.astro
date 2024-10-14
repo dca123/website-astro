@@ -33,6 +33,15 @@ const path = getPath(Astro.request.url);
         },
       ]}>Albums</a
     >
+    <a
+      href="/playlists"
+      class:list={[
+        "text-white text-2xl font-title  p-2 ",
+        {
+          "font-semibold": path === "/playlists",
+        },
+      ]}>Playlists</a
+    >
   </div>
 </nav>
 

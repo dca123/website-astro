@@ -1,8 +1,14 @@
 import { expect, test } from "vitest";
-import { NotionDB, date, select, string, title } from "./notionDb";
+import { NotionDB, date, select, string, title, type OTitle } from "./notionDb";
+import { Client } from "@notionhq/client";
+
+const notionClient = new Client({
+  auth: import.meta.env.NOTION_API_KEY,
+});
 
 test("inserts title to page", async () => {
   const client = new NotionDB({
+    client: notionClient,
     databaseId: "2a93636c71494fe88f3f810fcb0be6cf",
     schema: {
       Name: title(),
@@ -19,6 +25,7 @@ test("inserts title to page", async () => {
 
 test("inserts string to page", async () => {
   const client = new NotionDB({
+    client: notionClient,
     databaseId: "2a93636c71494fe88f3f810fcb0be6cf",
     schema: {
       summary: string(),
@@ -35,6 +42,7 @@ test("inserts string to page", async () => {
 
 test("inserts select to page", async () => {
   const client = new NotionDB({
+    client: notionClient,
     databaseId: "2a93636c71494fe88f3f810fcb0be6cf",
     schema: {
       whitespace: select(["hello", "world"]),
@@ -50,6 +58,7 @@ test("inserts select to page", async () => {
 
 test("inserts date to page", async () => {
   const client = new NotionDB({
+    client: notionClient,
     databaseId: "2a93636c71494fe88f3f810fcb0be6cf",
     schema: {
       birthday: date(),
@@ -63,5 +72,30 @@ test("inserts date to page", async () => {
 
   expect(Date.parse(response.properties.birthday.date.start)).toEqual(
     myBirthday.getTime(),
+  );
+});
+
+test("findAll", async () => {
+  const client = new NotionDB({
+    client: notionClient,
+    databaseId: "2a4cbc8d46d34b508c5ac30897394140",
+    schema: {
+      Name: title(),
+      fav_food: string(),
+    },
+  });
+
+  const response = await client.findAll();
+  expect(response).toEqual(
+    expect.arrayContaining([
+      {
+        Name: "Devinda",
+        fav_food: "Pizza",
+      },
+      {
+        Name: "Minesh",
+        fav_food: "Beer",
+      },
+    ]),
   );
 });

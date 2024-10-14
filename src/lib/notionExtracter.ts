@@ -17,7 +17,14 @@ export const extractContent = async (
 ) => {
   const transformedBlocks: Array<
     | {
-        type: "paragraph" | "heading_1" | "heading_2" | "heading_3" | "quote";
+        type:
+          | "paragraph"
+          | "heading_1"
+          | "heading_2"
+          | "heading_3"
+          | "quote"
+          | "callout"
+          | "to_do";
         content: Array<RichTextItemResponse>;
       }
     | {
@@ -168,6 +175,22 @@ export const extractContent = async (
           });
           break;
         }
+
+        case "callout": {
+          transformedBlocks.push({
+            type: "callout",
+            content: block.callout.rich_text,
+            // icon: block.callout.icon,
+          });
+          break;
+        }
+
+        case "to_do":
+          transformedBlocks.push({
+            type: "to_do",
+            content: block.to_do.rich_text,
+          });
+          break;
 
         default:
           transformedBlocks.push({ type: "unknown", content: block.type });

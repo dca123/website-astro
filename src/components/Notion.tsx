@@ -169,6 +169,22 @@ export default function Notion({ blocks }: { blocks: Content }) {
             <RichTextSpan content={block.content} />
           </blockquote>
         );
+      case "callout":
+        return (
+          <aside className="bg-gray-800 rounded p-5 ">
+            <RichTextSpan content={block.content} />
+          </aside>
+        );
+      case "to_do":
+        return (
+          <div>
+            <input
+              type="checkbox"
+              className="peer h-4 w-4 shrink-0 rounded-sm border border-primary shadow focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground"
+            />{" "}
+            <RichTextSpan content={block.content} />
+          </div>
+        );
       default:
         return (
           <h1 className="text-red-400">Missing {block.content} block here</h1>
