@@ -17,9 +17,13 @@ const { description, skills, title, slug, cover } = Astro.props;
 ---
 
 <a href={"projects/" + slug} rel="prefetch">
-  <div class="bg-gray-700 rounded-lg min-w-full flex flex-col h-full">
+  <div
+    class="bg-card rounded-lg min-w-full flex flex-col h-full hover:-translate-y-2 transition-transform duration-150"
+  >
     <div class="aspect-h-3 aspect-w-4">
       <Image
+        transition:name={`image_${slug}`}
+        transition:animate="slide"
         src={cover}
         alt={`Cover image for ${title}`}
         class="min-w-full rounded rounded-b-none object-cover"
@@ -29,10 +33,12 @@ const { description, skills, title, slug, cover } = Astro.props;
     </div>
     <div class="px-6 flex flex-col justify-between space-y-4 py-4 h-full">
       <div>
-        <h2 class="text-white text-xl font-semibold font-title tracking-wide">
+        <h2
+          class="text-card-foreground text-xl font-semibold font-title tracking-wide"
+        >
           {title}
         </h2>
-        <p class="text-slate-200 font-thin">{description}</p>
+        <p class="text-muted-foreground font-thin">{description}</p>
       </div>
       <div class="flex space-x-2">
         {skills.map((skill) => <Skill title={skill} size="small" />)}

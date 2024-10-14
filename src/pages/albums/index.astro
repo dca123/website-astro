@@ -7,13 +7,13 @@ const albums = await getAlbums("076c02479a7e4a4a80c54569831d85e5");
 ---
 
 <Layout title="Albums">
-  <h1 class="font-title tracking-wider text-xl text-white mt-7">Albums</h1>
+  <h1 class="font-title tracking-wider text-xl mt-7">Albums</h1>
   <div class="my-6">
     {
       albums.map((album, idx) => (
         <a href={"/albums/" + album.slug} rel="prefetch">
           <div class:list={["flex flex-col md:hidden", { "pt-12": idx > 0 }]}>
-            <h1 class="text-white text-3xl font-title font-bold tracking-wider">
+            <h1 class=" text-3xl font-title font-bold tracking-wider">
               {album.name}
             </h1>
             <h2 class="text-slate-200 text-sm tracking-wider font-title ">
@@ -51,7 +51,7 @@ const albums = await getAlbums("076c02479a7e4a4a80c54569831d85e5");
               />
             </div>
             <div class="basis-1/2">
-              <h1 class="text-white text-3xl font-title font-bold tracking-wider">
+              <h1 class=" text-3xl font-title font-bold tracking-wider">
                 {album.name}
               </h1>
               <h2 class="text-slate-200 text-sm tracking-wider font-title ">

@@ -29,7 +29,7 @@ const NotionColorMap: Record<
   red_background: "bg-red-500",
   yellow: "text-yellow-500",
   yellow_background: "bg-yellow-500",
-  default: "text-white",
+  default: "",
 };
 
 const RichTextSpan = ({
@@ -110,7 +110,7 @@ export default function Notion({ blocks }: { blocks: Content }) {
         );
       case "bulleted_list_item":
         return (
-          <ul className="list-disc list-inside text-white">
+          <ul className="list-disc list-inside ">
             {block.content.map((content, idx) => (
               <li key={idx}>
                 <RichTextSpan content={content} />
@@ -120,7 +120,7 @@ export default function Notion({ blocks }: { blocks: Content }) {
         );
       case "numbered_list_item":
         return (
-          <ol className="list-decimal list-inside text-white space-y-2">
+          <ol className="list-decimal list-inside space-y-2">
             {block.content.map((content, idx) => (
               <li key={idx}>
                 <span className="pl-1">
@@ -171,7 +171,7 @@ export default function Notion({ blocks }: { blocks: Content }) {
         );
       case "callout":
         return (
-          <aside className="bg-gray-800 rounded p-5 ">
+          <aside className="bg-card rounded p-5 ">
             <RichTextSpan content={block.content} />
           </aside>
         );

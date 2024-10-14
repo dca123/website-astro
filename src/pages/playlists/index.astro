@@ -7,7 +7,7 @@ const playlists = await getPlaylists("a3551a2a0ce5449db2a21eca49c8d011");
 ---
 
 <Layout title="Playlists">
-  <h1 class="font-title tracking-wider text-xl text-white mt-7">Playlists</h1>
+  <h1 class="font-title tracking-wider text-xl mt-7">Playlists</h1>
   <div class="my-6 flex space-y-8 flex-col">
     {
       playlists.map((playlist, idx) => (
@@ -24,7 +24,7 @@ const playlists = await getPlaylists("a3551a2a0ce5449db2a21eca49c8d011");
               />
             </div>
 
-            <h1 class="text-white text-3xl font-title font-semibold tracking-wider">
+            <h1 class=" text-3xl font-title font-semibold tracking-wider">
               {playlist.name}
             </h1>
           </div>

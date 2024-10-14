@@ -2,6 +2,7 @@
 export interface Props {
   title: string;
 }
+import "../base.css";
 import "@fontsource/nunito";
 import "@fontsource/nunito/variable.css";
 import "@fontsource/montserrat";
@@ -9,6 +10,7 @@ import "@fontsource/montserrat/variable.css";
 import MobileNav from "../components/MobileNav.astro";
 import Nav from "../components/Nav.astro";
 const { title } = Astro.props;
+import { ViewTransitions } from "astro:transitions";
 ---
 
 <!doctype html>
@@ -19,9 +21,10 @@ const { title } = Astro.props;
     <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
+    <ViewTransitions />
   </head>
 
-  <body class="bg-neutral-950">
+  <body class="bg-background text-foreground">
     <MobileNav />
     <main class="container mx-auto px-6 md:px-40 pb-16">
       <Nav />

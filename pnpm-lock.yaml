@@ -15,7 +15,7 @@ importers:
         specifier: ^3.0.6
         version: 3.6.2(@types/react-dom@18.3.1)(@types/react@18.3.11)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(vite@4.5.5(@types/node@22.7.5))
       '@astrojs/tailwind':
-        specifier: ^5.0.2
+        specifier: ^5.1.2
         version: 5.1.2(astro@3.6.5(@types/node@22.7.5))(tailwindcss@3.4.13)
       '@astrojs/vercel':
         specifier: ^5.2.0
@@ -66,7 +66,7 @@ importers:
         specifier: ^1.14.0
         version: 1.14.0
       tailwindcss:
-        specifier: ^3.2.7
+        specifier: ^3.4.13
         version: 3.4.13
     devDependencies:
       '@faker-js/faker':
