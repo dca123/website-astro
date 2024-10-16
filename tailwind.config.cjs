@@ -23,6 +23,7 @@ module.exports = {
           DEFAULT: "hsl(var(--muted))",
           foreground: "hsl(var(--muted-foreground))",
         },
+        border: "hsl(var(--border))",
       },
       fontFamily: {
         sans: ["NunitoVariable", "Nunito", ...defaultTheme.fontFamily.sans],

@@ -45,9 +45,16 @@ const { slug, blocks, cover, skills, title, date } = Astro.props;
 <Layout title={title + " | Devinda Senanayake"}>
   <div class="mx-0 text-base md:mx-28 md:text-lg">
     <div class="flex flex-col justify-between mt-4">
-      <h1 class="text-xl font-title">{title}</h1>
+      <h1
+        transition:name={`title_${slug}`}
+        transition:animate="slide"
+        class="text-xl font-title"
+      >
+        {title}
+      </h1>
       <p class="font-light text-sm font-title">{date}</p>
     </div>
+
     <div class="aspect-w-4 aspect-h-5 md:aspect-h-1 md:aspect-w-2 mt-4">
       <Image
         transition:name={`image_${slug}`}

@@ -11,6 +11,7 @@ export interface Props {
 }
 
 const { description, skills, title, slug, cover } = Astro.props;
+import { slide } from "astro:transitions";
 // const cover = import.meta.env.DEV
 // ? "https://source.unsplash.com/random/600/?landscape"
 // : Astro.props.cover;
@@ -23,7 +24,6 @@ const { description, skills, title, slug, cover } = Astro.props;
     <div class="aspect-h-3 aspect-w-4">
       <Image
         transition:name={`image_${slug}`}
-        transition:animate="slide"
         src={cover}
         alt={`Cover image for ${title}`}
         class="min-w-full rounded rounded-b-none object-cover"
@@ -34,6 +34,7 @@ const { description, skills, title, slug, cover } = Astro.props;
     <div class="px-6 flex flex-col justify-between space-y-4 py-4 h-full">
       <div>
         <h2
+          transition:name={`title_${slug}`}
           class="text-card-foreground text-xl font-semibold font-title tracking-wide"
         >
           {title}
