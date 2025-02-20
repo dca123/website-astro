@@ -13,7 +13,7 @@ export const response = (block_id: string) =>
 
 export const getProjects = async (
   database_id: string,
-  props: { published: boolean },
+  props: { onlyPublished: boolean },
 ) => {
   const database = await notion.databases.query({
     database_id,
@@ -23,12 +23,13 @@ export const getProjects = async (
     if (isFullPage(page)) {
       const { slug, name, description, skills, date, published } =
         page.properties;
+      console.log("processing", page.id, name.title[0].plain_text);
 
       if (!published || published.type !== "checkbox") {
         throw new Error(`Published is not defined for page ${page.id}`);
       }
 
-      if (props.published && published.checkbox === false) {
+      if (props.onlyPublished && published.checkbox === false) {
         return;
       }
       const { cover } = page;
