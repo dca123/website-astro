@@ -9,8 +9,7 @@ const intro =
 const email = "mailto:" + "contact@devinda.me";
 const github = "https://github.com/" + "dca123";
 const resume = "https://devinda.me/resume";
-const allProjects = await getProjects("4f1fd603748b44d58615d782979d7a1e");
-const projects = allProjects.filter((p) => p.published === true);
+const allProjects = await getProjects("4f1fd603748b44d58615d782979d7a1e", {published: true});
 ---
 
 <Layout title="Devinda Senanayake">

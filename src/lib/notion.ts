@@ -11,7 +11,10 @@ export const response = (block_id: string) =>
     block_id,
   });
 
-export const getProjects = async (database_id: string) => {
+export const getProjects = async (
+  database_id: string,
+  props: { published: boolean },
+) => {
   const database = await notion.databases.query({
     database_id,
   });
@@ -25,7 +28,7 @@ export const getProjects = async (database_id: string) => {
         throw new Error(`Published is not defined for page ${page.id}`);
       }
 
-      if (published.checkbox === false) {
+      if (props.published && published.checkbox === false) {
         return;
       }
       const { cover } = page;
