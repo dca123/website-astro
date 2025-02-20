@@ -20,6 +20,14 @@ export const getProjects = async (database_id: string) => {
     if (isFullPage(page)) {
       const { slug, name, description, skills, date, published } =
         page.properties;
+
+      if (!published || published.type !== "checkbox") {
+        throw new Error(`Published is not defined for page ${page.id}`);
+      }
+
+      if (published.checkbox === false) {
+        return;
+      }
       const { cover } = page;
 
       if (slug.type !== "rich_text") {
@@ -40,10 +48,6 @@ export const getProjects = async (database_id: string) => {
         throw new Error(
           `Cover is not defined for page ${page.id}, ${name.title[0].plain_text}`,
         );
-      }
-
-      if (!published || published.type !== "checkbox") {
-        throw new Error(`Published is not defined for page ${page.id}`);
       }
 
       if (date.type !== "date" || date.date === null) {
