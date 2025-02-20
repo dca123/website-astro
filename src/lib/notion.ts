@@ -37,7 +37,9 @@ export const getProjects = async (database_id: string) => {
       }
 
       if (!cover || cover.type !== "external") {
-        throw new Error(`Cover is not defined for page ${page.id}`);
+        throw new Error(
+          `Cover is not defined for page ${page.id}, ${name.title[0].plain_text}`,
+        );
       }
 
       if (!published || published.type !== "checkbox") {
