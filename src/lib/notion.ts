@@ -23,7 +23,7 @@ export const getProjects = async (
     if (isFullPage(page)) {
       const { slug, name, description, skills, date, published } =
         page.properties;
-      console.log("processing", page.id, name.title[0].plain_text);
+      console.log("processing", page.id);
 
       if (!published || published.type !== "checkbox") {
         throw new Error(`Published is not defined for page ${page.id}`);
