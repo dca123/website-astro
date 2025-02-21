@@ -72,7 +72,8 @@ export const getProjects = async (
         throw new Error("Page is not a full page");
       }
     })
-    .filter((p) => p !== undefined);
+    .filter((p) => p !== undefined)
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 };
 
 export const getAlbums = async (database_id: string) => {
